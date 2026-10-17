@@ -1,6 +1,6 @@
 <!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101b33"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><title>Fotbalová nominace</title>
 <style>
-:root{--bg:#eef3fb;--card:#fff;--ink:#172033;--muted:#66738a;--green:#2463d8;--dark:#101b33;--pale:#e5edff;--line:#d7e1f1}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,sans-serif}header{background:var(--dark);color:white;padding:23px 18px}header,main,nav{max-width:760px;margin:auto}header{max-width:none}header .inner{max-width:760px;margin:auto}.eyebrow{font-size:.75rem;letter-spacing:.13em;font-weight:800;color:#a9c8ff}h1{font-size:2.2rem;margin:8px 0}header p{color:#dbe5f7;margin:0}nav{display:flex;gap:8px;padding:12px 16px;overflow:auto}button{border:0;border-radius:11px;padding:10px 12px;font:inherit;font-weight:700;cursor:pointer;background:#e7edf7;color:#26334d}button.primary{background:var(--green);color:white}button.danger{background:#f8e8e6;color:#a63f36}button.small{padding:7px 9px;font-size:.84rem}nav button{flex:1;white-space:nowrap}main{padding:0 16px 35px}.panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:16px;margin:12px 0;box-shadow:0 3px 14px #1b352009}h2{font-size:1.15rem;margin:0 0 12px}h3{font-size:1rem;margin:0}.muted{color:var(--muted);font-size:.9rem}label{display:block;font-size:.88rem;font-weight:700;margin:11px 0 5px}input,textarea{width:100%;border:1px solid #cbd6e8;border-radius:10px;background:#fff;color:var(--ink);padding:11px;font:inherit}input[type=checkbox]{width:20px;height:20px;accent-color:var(--green)}textarea{min-height:200px;font: .9rem ui-monospace,monospace}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.actions button{flex:1}.calendar-head{display:flex;justify-content:space-between;align-items:center}.calendar-head button{padding:6px 12px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:10px}.dow{text-align:center;font-size:.75rem;color:var(--muted);padding:4px}.day{position:relative;min-height:39px;padding:5px 0;border-radius:8px;text-align:center;background:#f3f6fc;font-weight:600}.day.other{color:#aab3ad}.day.selected{background:var(--green);color:white}.day.has-event:after{content:"";position:absolute;bottom:3px;left:calc(50% - 3px);width:6px;height:6px;border-radius:50%;background:#d5a53d}.day.selected.has-event:after{background:white}.event{display:flex;gap:10px;margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:12px}.timebox{background:var(--pale);color:var(--green);border-radius:10px;padding:8px;min-width:54px;text-align:center}.eventbody{flex:1;min-width:0}.eventbody p{margin:4px 0}.players{display:grid;grid-template-columns:1fr 1fr;gap:7px}.player{display:flex;align-items:center;gap:7px;border:1px solid var(--line);padding:8px;border-radius:9px;background:#f9fbff;font-size:.9rem}.player span{overflow-wrap:anywhere}.empty{text-align:center;padding:20px;color:var(--muted)}.lineup-switch{display:flex;gap:8px;margin:10px 0}.lineup-switch button{flex:1}.pitch{background:linear-gradient(180deg,#277b4a,#1f6b40);border:3px solid #e7f5e9;border-radius:16px;padding:12px 8px;overflow:hidden;color:white}.pitch-row{display:flex;justify-content:space-around;gap:8px;margin:14px 0 24px;transition:transform .15s ease}.position{flex:1;min-width:0;max-width:48%;text-align:center}.position .shirt{width:40px;height:40px;border-radius:50%;background:#fff;color:#173b80;border:3px solid #d8e7ff;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-weight:900;box-shadow:0 2px 6px #0003}.position select{width:100%;max-width:150px;padding:7px 3px;border-radius:8px;border:1px solid #cbd6e8;font-size:.78rem;background:#fff;color:#172033}.position small{display:block;font-weight:800;margin-bottom:5px;text-shadow:0 1px 3px #000}.sub-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}.sub-item{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:9px;padding:8px;background:#f9fbff;font-size:.9rem}.sub-item input{width:18px;margin:0}.line-adjust{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;margin:8px 0}.line-adjust input{padding:0}.line-adjust span{font-size:.82rem;color:var(--muted)}@media(max-width:380px){.position select{font-size:.7rem}.position .shirt{width:36px;height:36px}}.note{background:#edf3ff;border-left:3px solid #6a91e8;padding:10px;border-radius:0 9px 9px 0;font-size:.9rem}.toast{display:none;background:var(--pale);padding:10px;border-radius:9px;margin-top:8px}.toast.show{display:block}@media(max-width:380px){.players,.grid2{grid-template-columns:1fr}}
+:root{--bg:#eef3fb;--card:#fff;--ink:#172033;--muted:#66738a;--green:#2463d8;--dark:#101b33;--pale:#e5edff;--line:#d7e1f1}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,sans-serif}header{background:var(--dark);color:white;padding:23px 18px}header,main,nav{max-width:760px;margin:auto}header{max-width:none}header .inner{max-width:760px;margin:auto}.eyebrow{font-size:.75rem;letter-spacing:.13em;font-weight:800;color:#a9c8ff}h1{font-size:2.2rem;margin:8px 0}header p{color:#dbe5f7;margin:0}nav{display:flex;gap:8px;padding:12px 16px;overflow:auto}button{border:0;border-radius:11px;padding:10px 12px;font:inherit;font-weight:700;cursor:pointer;background:#e7edf7;color:#26334d}button.primary{background:var(--green);color:white}button.danger{background:#f8e8e6;color:#a63f36}button.small{padding:7px 9px;font-size:.84rem}nav button{flex:1;white-space:nowrap}@media(max-width:600px){nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible;gap:8px;padding:12px 16px}nav button{min-width:0;white-space:normal;overflow-wrap:anywhere;font-size:.88rem;line-height:1.25;padding:10px 6px}}main{padding:0 16px 35px}.panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:16px;margin:12px 0;box-shadow:0 3px 14px #1b352009}h2{font-size:1.15rem;margin:0 0 12px}h3{font-size:1rem;margin:0}.muted{color:var(--muted);font-size:.9rem}label{display:block;font-size:.88rem;font-weight:700;margin:11px 0 5px}input,textarea{width:100%;border:1px solid #cbd6e8;border-radius:10px;background:#fff;color:var(--ink);padding:11px;font:inherit}input[type=checkbox]{width:20px;height:20px;accent-color:var(--green)}textarea{min-height:200px;font: .9rem ui-monospace,monospace}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.actions button{flex:1}.calendar-head{display:flex;justify-content:space-between;align-items:center}.calendar-head button{padding:6px 12px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:10px}.dow{text-align:center;font-size:.75rem;color:var(--muted);padding:4px}.day{position:relative;min-height:39px;padding:5px 0;border-radius:8px;text-align:center;background:#f3f6fc;font-weight:600}.day.other{color:#aab3ad}.day.selected{background:var(--green);color:white}.day.has-event:after{content:"";position:absolute;bottom:3px;left:calc(50% - 3px);width:6px;height:6px;border-radius:50%;background:#d5a53d}.day.selected.has-event:after{background:white}.event{display:flex;gap:10px;margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:12px}.timebox{background:var(--pale);color:var(--green);border-radius:10px;padding:8px;min-width:54px;text-align:center}.eventbody{flex:1;min-width:0}.eventbody p{margin:4px 0}.players{display:grid;grid-template-columns:1fr 1fr;gap:7px}.player{display:flex;align-items:center;gap:7px;border:1px solid var(--line);padding:8px;border-radius:9px;background:#f9fbff;font-size:.9rem}.player span{overflow-wrap:anywhere}.empty{text-align:center;padding:20px;color:var(--muted)}.lineup-switch{display:flex;gap:8px;margin:10px 0}.lineup-switch button{flex:1}.pitch{background:linear-gradient(180deg,#277b4a,#1f6b40);border:3px solid #e7f5e9;border-radius:16px;padding:12px 8px;overflow:hidden;color:white}.pitch-row{display:flex;justify-content:space-around;gap:8px;margin:14px 0 24px;transition:transform .15s ease}.position{flex:1;min-width:0;max-width:48%;text-align:center}.position .shirt{width:40px;height:40px;border-radius:50%;background:#fff;color:#173b80;border:3px solid #d8e7ff;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-weight:900;box-shadow:0 2px 6px #0003}.position select{width:100%;max-width:150px;padding:7px 3px;border-radius:8px;border:1px solid #cbd6e8;font-size:.78rem;background:#fff;color:#172033}.position small{display:block;font-weight:800;margin-bottom:5px;text-shadow:0 1px 3px #000}.sub-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}.sub-item{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:9px;padding:8px;background:#f9fbff;font-size:.9rem}.sub-item input{width:18px;margin:0}.line-adjust{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;margin:8px 0}.line-adjust input{padding:0}.line-adjust span{font-size:.82rem;color:var(--muted)}@media(max-width:380px){.position select{font-size:.7rem}.position .shirt{width:36px;height:36px}}.note{background:#edf3ff;border-left:3px solid #6a91e8;padding:10px;border-radius:0 9px 9px 0;font-size:.9rem}.toast{display:none;background:var(--pale);padding:10px;border-radius:9px;margin-top:8px}.toast.show{display:block}@media(max-width:380px){.players,.grid2{grid-template-columns:1fr}}
 </style></head><body>
 <header><div class="inner"><div class="eyebrow">PRO RODIČE A TRENÉRY ⚽</div><h1>Fotbalová nominace</h1><p>Naplánuj akci, vyber hráče a zkopíruj zprávu do WhatsAppu.</p></div></header>
 <nav><button class="primary" data-tab="events">📅 Kalendář</button><button data-tab="edit">✏️ Nová akce</button><button data-tab="players">👟 Hráči</button><button data-tab="lineup">⚽ Rozestavení</button><button data-tab="tools">🖼️ Rozpis</button><button data-tab="stats">📊 Statistiky</button><button data-tab="backup">🛡️ Záloha</button></nav>
@@ -82,41 +82,99 @@ $("exportLineup").onclick=exportLineupImage;
 $("prev").onclick=()=>{month=new Date(month.getFullYear(),month.getMonth()-1,1);calendar()};$("next").onclick=()=>{month=new Date(month.getFullYear(),month.getMonth()+1,1);calendar()};
 const showStatus=t=>{const el=$("toolStatus");el.textContent=t;el.classList.add("show")};
 const photoSchedule=[
-["2026-09-19","Zápas Kbely","09:00","Zličín","UMT"],
-["2026-09-23","Zápas FAAZ","16:30","Zličín","malá UMT"],
-["2026-10-01","Zápas Jinočany","16:30","Zličín","malá UMT"],
-["2026-10-03","Turnaj Karlštejn","08:00","Karlštejn","Tráva"],
-["2026-10-10","Zápas Motorlet","08:30","Motorlet","UMT"],
-["2026-10-18","Turnaj Nymburk","08:00","Nymburk","Tráva"],
-["2026-10-24","Zápas FAAZ","08:30","Zličín","UMT"],
-["2026-11-01","Turnaj Koloděje","10:00","Koloděje","UMT"],
-["2026-11-07","Turnaj Koloděje","08:00","Koloděje","UMT"],
-["2026-11-14","Přední Kopanina - FCZ","11:00","Kopanina","Tráva"],
-["2026-11-21","Turnaj Zbraslav","14:00","Zbraslav","UMT"],
-["2026-11-28","Zimní Liga Slivenec","","Slivenec","UMT"],
-["2026-11-29","FCZ - Dolní Chabry","","Zličín","UMT"],
-["2026-12-05","Zimní Liga Slivenec","","Slivenec","UMT"],
-["2026-12-05","Turnaj Koloděje","14:00","Koloděje","UMT"],
-["2026-12-12","Zimní Liga Slivenec","","Slivenec","UMT"],
-["2026-12-13","SK Kamenice - FCZ","16:00","Motorlet","UMT"],
-["2027-01-09","Turnaj Zbraslav","08:30","Zbraslav","UMT"],
-["2027-01-16","Zimní Liga Slivenec","","Slivenec","UMT"],
-["2027-01-16","Turnaj Zbraslav","08:30","Zbraslav","UMT"],
-["2027-01-23","Zimní Liga Slivenec","","Slivenec","UMT"],
-["2027-01-23","Turnaj Zbraslav","","Zbraslav","UMT"],
-["2027-01-30","Zimní Liga Slivenec","","Slivenec","UMT"],
-["2027-01-31","Turnaj Zličín","13:00","Zličín","Hala"],
-["2027-02-06","Zimní Liga Slivenec","","Slivenec","UMT"],
-["2027-02-07","Turnaj Dobříš","08:00","Dobříš","Hala"],
-["2027-02-14","Turnaj Zličín","13:00","Zličín","Hala"],
-["2027-02-20","Turnaj Koloděje","10:00","Koloděje","UMT"],
-["2027-03-06","Zimní Liga Slivenec","","Slivenec","UMT"],
-["2027-03-06","Turnaj Zbraslav/Chýně","08:00","Zbraslav/Chýně","UMT/Hala"],
-["2027-03-13","Zimní Liga Slivenec","","Slivenec","UMT"],
-["2027-03-14","Turnaj Koloděje","10:00","Koloděje","UMT"]];
+ ["2026-10-18","Turnaj Nymburk","09:00","Nymburk","Tráva"],
+ ["2026-10-24","Zápas FAAZ","08:30","Zličín","UMT"],
+ ["2026-11-01","Turnaj Koloděje","10:00","Koloděje","UMT"],
+ ["2026-11-07","Turnaj Koloděje","08:00","Koloděje","UMT"],
+ ["2026-11-14","Přední Kopanina - FCZ","11:00","Kopanina","Tráva"],
+ ["2026-11-21","Turnaj Zbraslav","14:00","Zbraslav","UMT"],
+ ["2026-11-28","Kamenice - FCZ","14:30","Slivenec","UMT"],
+ ["2026-11-29","FCZ - Dolní Chabry","","Zličín","UMT"],
+ ["2026-12-05","Motorlet - Zličín","14:30","Slivenec","UMT"],
+ ["2026-12-12","Vršovice","10:00","Slivenec","UMT"],
+ ["2027-01-09","Turnaj Zbraslav","08:30","Zbraslav","UMT"],
+ ["2027-01-16","Turnaj Zbraslav","08:30","Zbraslav","UMT"],
+ ["2027-01-16","Slivenec - FCZ","14:30","Slivenec","UMT"],
+ ["2027-01-23","Turnaj Zbraslav","","Zbraslav","UMT"],
+ ["2027-01-23","Viktoria Žižkov - FCZ","11:30","Slivenec","UMT"],
+ ["2027-01-30","Zimní Liga Slivenec","14:30","Slivenec","UMT"],
+ ["2027-01-31","Turnaj Zličín","13:00","Zličín","Hala"],
+ ["2027-02-06","Zimní Liga Slivenec","14:30","Slivenec","UMT"],
+ ["2027-02-07","Turnaj Dobříš","08:00","Dobříš","Hala"],
+ ["2027-02-14","Turnaj Zličín","13:00","Zličín","Hala"],
+ ["2027-02-20","Turnaj Koloděje","10:00","Koloděje","UMT"],
+ ["2027-03-06","Turnaj Zbraslav/Chýně","08:00","Zbraslav/Chýně","UMT/Hala"],
+ ["2027-03-06","Union Strašnice - FCZ","16:00","Slivenec","UMT"],
+ ["2027-03-13","Viktoria Žižkov","09:00","Slivenec","UMT"],
+ ["2027-03-14","Turnaj Koloděje","10:00","Koloděje","UMT"]
+]
 $("importSchedule").onclick=()=>{let added=0;for(const [date,name,time,place,surface] of photoSchedule){if(events.some(e=>e.date===date&&e.name.toLowerCase()===name.toLowerCase()))continue;events.push({id:String(Date.now())+Math.random().toString(16).slice(2),date,name,time,venue:surface?`${surface} - ${place}`:place,address:"",kickoff:"",extra:""});added++}save();calendar();showStatus(`Import hotov: přidáno ${added} událostí z připraveného rozpisu. Import nevyžaduje OCR. Časy a místa můžeš upravit v kalendáři.`)};
 $("ocrBtn").onclick=async()=>{const f=$("photoInput").files[0];if(!f){showStatus("Nejprve vyber fotku rozpisu.");return}try{showStatus("Načítám rozpoznávání textu…");if(!window.Tesseract){await new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";sc.onload=res;sc.onerror=rej;document.head.append(sc)})}const result=await Tesseract.recognize(f,"ces+eng",{logger:m=>{if(m.status&&m.progress)$("toolStatus").textContent=`Rozpoznávám text: ${Math.round(m.progress*100)} %`}});$("ocrText").value=result.data.text;showStatus("Text je rozpoznaný. Zkontroluj ho a klepni na Převést text na události.")}catch(e){showStatus("Fotku se nepodařilo automaticky přečíst. Zkus kvalitnější obrázek nebo použij Importovat připravený rozpis (z první fotky).")}};
-$("parseOcr").onclick=()=>{const lines=$("ocrText").value.split(/\n/).map(x=>x.trim()).filter(Boolean);let added=0,skipped=0,preview=[];for(const line of lines){const m=line.match(/(?:^|\s)(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})\s+(.+)/);if(!m)continue;let [,dd,mm,yy,rest]=m;let year=+yy;if(year<100)year+=2000;const date=`${year}-${String(+mm).padStart(2,"0")}-${String(+dd).padStart(2,"0")}`;if(+mm<1||+mm>12||+dd<1||+dd>31)continue;const times=[...rest.matchAll(/\b(\d{1,2}:\d{2})\b/g)].map(x=>x[1]);const time=times.find(t=>{const [h,m]=t.split(":").map(Number);return h<24&&m<60})||"";rest=rest.replace(/\b\d{1,2}:\d{2}\b/g," ").replace(/\s*(?:-|–|—|až|do)\s*/g," ").replace(/\s+/g," ").trim();const cols=rest.split(/\t+|\s{2,}/).map(x=>x.trim()).filter(Boolean);let name=(cols[0]||rest).trim(),place=cols[1]||"",surface=cols[2]||"";if(!name)continue;if(events.some(e=>e.date===date&&e.name.toLowerCase()===name.toLowerCase())){skipped++;continue}const item={id:String(Date.now())+Math.random().toString(16).slice(2),date,name,time,venue:surface?`${surface} - ${place}`:place,address:"",kickoff:"",extra:""};events.push(item);preview.push(`${date} ${time} – ${name}${item.venue?" – "+item.venue:""}`);added++}if(added){save();calendar();showStatus(`Přidáno ${added} událostí${skipped?`, přeskočeno duplicit: ${skipped}`:""}. Zkontroluj import v kalendáři: ${preview.slice(0,5).join(" | ")}${preview.length>5?" …":""}`)}else showStatus(skipped?`Všechny rozpoznané události už v kalendáři jsou. Přeskočeno duplicit: ${skipped}.`:"Nenašel jsem platné datum. Každý řádek začni například 18.10.2026, za ním uveď čas a název akce.")};
+function parseOcrLine(raw){
+  let line=raw.replace(/\u00a0/g," ").trim();
+  if(!line || /^(datum|čas|cas|akce|místo|misto|povrch)$/i.test(line)) return null;
+  // Accept date at beginning, with optional separators and time.
+  const dm=line.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})(.*)$/);
+  if(!dm)return null;
+  let [,dd,mm,yy,rest]=dm,year=Number(yy);if(year<100)year+=2000;
+  const day=Number(dd),monthNo=Number(mm);
+  if(monthNo<1||monthNo>12||day<1||day>31)return null;
+  const date=`${year}-${String(monthNo).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+  // Normalize common OCR column separators while preserving single spaces in names.
+  rest=rest.replace(/^[\s|;,:]+/,"").trim();
+  let time="";
+  const tm=rest.match(/\b([01]?\d|2[0-3])[:.]([0-5]\d)\b/);
+  if(tm){time=`${String(Number(tm[1])).padStart(2,"0")}:${tm[2]}`;rest=rest.replace(tm[0]," ").trim()}
+  rest=rest.replace(/^[\s|;,:-]+/,"").replace(/\s+/g," ").trim();
+  if(!rest)return null;
+  // If OCR preserved actual columns (tabs, pipes, semicolons), use those first.
+  const rawRest=dm[4].replace(/^[\s|;,:]+/,"").replace(/\b([01]?\d|2[0-3])[:.]([0-5]\d)\b/," ").trim();
+  let name="",place="",surface="";
+  const explicit=rawRest.split(/\t+|\s+\|\s+|\s*;\s*/).map(x=>x.trim()).filter(Boolean);
+  const surfaces=["UMT/Hala","malá UMT","malá umt","UMT","Hala","Tráva","Umělá tráva","Umělka"];
+  const surfaceRx=/(UMT\s*\/\s*Hala|malá\s+UMT|umělá\s+tráva|umělka|UMT|Hala|Tráva)\s*$/i;
+  let sm=rest.match(surfaceRx);
+  if(sm){surface=sm[1].replace(/\s+/g," ").replace(/^umt$/i,"UMT").replace(/^hala$/i,"Hala").replace(/^tráva$/i,"Tráva");rest=rest.slice(0,sm.index).trim()}
+  // Known venue names help separate the event title from the place even when OCR collapses spacing.
+  const venues=["Zbraslav/Chýně","Zbraslav/Chyne","Zličín","Zlicin","Nymburk","Koloděje","Kolodeje","Kopanina","Slivenec","Dobříš","Dobris","Karlštejn","Karlstejn","Motorlet","Jinočany","Jinocany"];
+  if(explicit.length>=2){
+    name=explicit[0];place=explicit[1];if(explicit.length>=3&&!surface)surface=explicit[2];
+  } else {
+    const low=rest.toLocaleLowerCase("cs");
+    const venue=venues.sort((a,b)=>b.length-a.length).find(v=>low.endsWith(v.toLocaleLowerCase("cs")));
+    if(venue){place=rest.slice(rest.length-venue.length).trim();name=rest.slice(0,rest.length-venue.length).trim()}
+    else {
+      // Common OCR output: title, then location, then surface, separated by two or more spaces.
+      const cols=rawRest.split(/\s{2,}/).map(x=>x.trim()).filter(Boolean);
+      if(cols.length>=2){name=cols[0];place=cols[1];if(cols[2]&&!surface)surface=cols[2]}
+      else name=rest;
+    }
+  }
+  name=name.replace(/[|;,]+$/,"").trim();
+  place=place.replace(/^[\s-]+|[\s-]+$/g,"").trim();
+  if(!name){name=rest;place=""}
+  // If venue was not recognized but trailing surface was, split on known location words in the remaining text.
+  if(!place&&!surface){
+    const cols=rest.split(/\s{2,}/).map(x=>x.trim()).filter(Boolean);
+    if(cols.length>1){name=cols[0];place=cols[1];surface=cols[2]||""}
+  }
+  return {date,time,name,place,surface};
+}
+$("parseOcr").onclick=()=>{
+ const lines=$("ocrText").value.split(/\n/).map(x=>x.trim()).filter(Boolean);
+ let added=0,skipped=0,unread=0;const preview=[];
+ for(const line of lines){
+  const item=parseOcrLine(line);if(!item){unread++;continue}
+  if(!item.name){unread++;continue}
+  const venue=[item.surface,item.place].filter(Boolean).join(" - ");
+  const duplicate=events.some(e=>e.date===item.date&&e.name.trim().toLocaleLowerCase("cs")===item.name.trim().toLocaleLowerCase("cs"));
+  if(duplicate){skipped++;continue}
+  events.push({id:String(Date.now())+Math.random().toString(16).slice(2),date:item.date,name:item.name,time:item.time,venue,address:"",kickoff:"",extra:""});
+  preview.push(`${item.date} ${item.time||"bez času"} | ${item.name} | ${item.place||"místo neuvedeno"} | ${item.surface||"povrch neuveden"}`);added++;
+ }
+ if(added){save();calendar();showStatus(`Importováno ${added} událostí. ${skipped?`Duplicit přeskočeno: ${skipped}. `:""}${unread?`Nerozpoznaných řádků: ${unread}. `:""}Kontrola: ${preview.slice(0,6).join(" • ")}${preview.length>6?" …":""} Otevři události a případné chyby uprav.`)}
+ else showStatus(skipped?`Všechny rozpoznané události už existují. Přeskočeno duplicit: ${skipped}.`:"Nenašel jsem platné řádky. Každý řádek musí začínat datem, např. 18.10.2026, a obsahovat název akce.");
+};
 $("exportImage").onclick=async()=>{const today=new Date();today.setHours(0,0,0,0);const todayKey=key(today);const rows=events.filter(e=>e.date>=todayKey).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||"").localeCompare(b.time||""));if(!rows.length){showStatus("Od dneška už nemáš v kalendáři žádné budoucí události.");return}const c=document.createElement("canvas"),ctx=c.getContext("2d"),scale=2,rowH=62,headH=72,pad=24,width=1500;c.width=width*scale;c.height=(headH+rows.length*rowH+pad*2)*scale;ctx.scale(scale,scale);ctx.fillStyle="#ffffff";ctx.fillRect(0,0,width,c.height/scale);ctx.fillStyle="#173b80";ctx.fillRect(0,0,width,headH);ctx.fillStyle="#fff";ctx.font="bold 34px Arial";const xs=[pad,280,520,920,1240];["DATUM","ČAS","AKCE","MÍSTO","POVRCH"].forEach((t,i)=>ctx.fillText(t,xs[i],39));ctx.font="bold 29px Arial";rows.forEach((e,i)=>{let y=headH+i*rowH;if(i%2===0){ctx.fillStyle="#e8efff";ctx.fillRect(0,y,width,rowH)}ctx.strokeStyle="#b5c9f5";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,y+rowH);ctx.lineTo(width,y+rowH);ctx.stroke();const d=parse(e.date),date=`${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()}`;let vals=[date,e.time||"",e.name||"",(e.venue||"").split(" - ").slice(-1)[0],(e.venue||"").includes(" - ")?(e.venue||"").split(" - ")[0]:""];ctx.fillStyle="#151515";vals.forEach((v,j)=>{let max=[240,220,390,300,230][j];while(ctx.measureText(v).width>max&&v.length>3)v=v.slice(0,-2)+"…";ctx.fillText(v,xs[j],y+39)})});
 try{const blob=await new Promise((resolve,reject)=>c.toBlob(b=>b?resolve(b):reject(new Error("PNG se nepodařilo vytvořit")),"image/png"));const file=new File([blob],"fotbalovy-rozpis.png",{type:"image/png"});if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Fotbalový rozpis",text:"Fotbalový rozpis"});showStatus("Obrázek je připravený ke sdílení. V nabídce iPhonu vyber Uložit obrázek nebo Uložit do Fotek, případně WhatsApp.");return}const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="fotbalovy-rozpis.png";a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);showStatus("Nabídka sdílení obrázku není v tomto prohlížeči dostupná. Obrázek se stáhl do Stažených; otevři ho a použij Sdílet → Uložit obrázek.")}catch(err){if(err&&err.name==="AbortError"){showStatus("Sdílení bylo zrušeno.")}else{showStatus("Obrázek se nepodařilo sdílet. Zkus to znovu v Safari.")}}};
 // Záloha: ukládá všechny klíče aplikace fn-* včetně nominací a sestav.
