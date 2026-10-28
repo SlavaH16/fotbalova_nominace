@@ -190,6 +190,14 @@
 
 
 .tactics-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:12px 0}.tactics-tools button{font-size:.85rem;padding:9px 6px;min-width:0}#tacticsPitchWrap{width:100%;border-radius:12px;overflow:hidden;border:2px solid #d7e1f1;background:#247b49;touch-action:none}#tacticsPitch{display:block;width:100%;height:auto;touch-action:none;user-select:none}#tacticsPitch .marker{cursor:grab;touch-action:none}#tacticsPitch .marker:active{cursor:grabbing}.tactics-card{padding:10px!important}.tactics-card>h2{margin:4px 2px 10px}.tactic-fold{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:#f8faff;overflow:hidden}.tactic-fold summary{padding:13px 14px;font-weight:700;cursor:pointer;color:#243552;list-style-position:inside}.tactic-fold[open] summary{border-bottom:1px solid var(--line);background:#eaf0ff}.tactic-fold>*:not(summary){margin-left:12px;margin-right:12px}.tactic-fold>p{padding-bottom:8px}.tactics-card #tacticsPitchWrap{margin:0 auto;border-radius:10px;box-shadow:0 2px 8px #14213d22}.tactics-card #tacticsPitch{width:100%;height:auto}.tactic-fold .actions{margin-top:10px;margin-bottom:12px}@media(max-width:500px){.tactics-card{padding:8px!important}.tactics-card>h2{font-size:1.15rem}.tactic-fold summary{padding:11px;font-size:.95rem}}.tactic-draw{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}.tactic-arrow{fill:none;stroke:#ffe66d;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}@media(min-width:620px){.tactics-tools{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Vizuální úprava taktické tabule: výraznější travnaté hřiště a kontrastní značky */
+#tacticsPitchWrap{background:#1c7041;border:3px solid #d9e7dc;box-shadow:0 8px 22px #13243a20;border-radius:16px;padding:0}
+#tacticsPitch{filter:drop-shadow(0 2px 2px #06241130)}
+#tactics .tactics-card>h2{display:flex;align-items:center;gap:8px}
+#tactics .tactic-fold{box-shadow:0 2px 7px #152b4908}
+#tactics .tactic-fold summary{font-size:.98rem}
+@media(min-width:620px){#tacticsPitchWrap{max-width:620px}}
 </style></head><body>
 <header><div class="inner"><div class="eyebrow">NÁSTROJE PRO FOTBALOVÉ TRENÉRY ⚽</div><h1>Fotbalový trenér</h1><p>Plánuj týmové akce, spravuj hráče, připravuj rozestavení a nominace a kresli herní situace na taktické tabuli.</p></div></header>
 <nav><button class="primary" data-tab="events">📅 Kalendář</button><button data-tab="edit">✏️ Nová akce</button><button data-tab="players">👟 Hráči</button><button data-tab="lineup">⚽ Rozestavení</button><button data-tab="tools">🖼️ Rozpis</button><button data-tab="stats">📊 Statistiky</button><button data-tab="backup">🛡️ Záloha</button><button data-tab="tactics">📋 Taktická tabule</button></nav>
@@ -504,11 +512,35 @@ $("shareStatsImage").onclick=exportStatsImage;
 let tacticTool="select",tacticObjects=[],tacticStrokes=[],tacticFrames=[],tacticRecording=false,tacticStart=0,tacticTimer=null,tacticPointer=null,tacticCurrentId=null,tacticInitialized=false;
 const tacticStoreKey="fn-tactics-library",tacticPitch=$ ("tacticsPitch");
 function tacticDefault(){tacticObjects=[{id:"m1",type:"blue",x:350,y:735},{id:"m2",type:"blue",x:245,y:590},{id:"m3",type:"blue",x:455,y:590},{id:"m4",type:"blue",x:250,y:390},{id:"m5",type:"blue",x:450,y:390},{id:"r1",type:"red",x:350,y:450},{id:"ball1",type:"ball",x:390,y:470}];tacticStrokes=[];tacticFrames=[];tacticCurrentId=null;renderTacticPitch()}
-function tacticPitchLines(){let type=$("pitchType").value;let top=type==="half"?0:0,bottom=900;let lines=`<rect x="10" y="10" width="680" height="880" rx="3" fill="#247b49" stroke="#fff" stroke-width="4"/><path d="M10 450 H690" stroke="#fff" stroke-width="3"/><circle cx="350" cy="450" r="85" fill="none" stroke="#fff" stroke-width="3"/><circle cx="350" cy="450" r="4" fill="#fff"/>`;
- if(type==="half"){lines=`<rect x="10" y="10" width="680" height="880" rx="3" fill="#247b49" stroke="#fff" stroke-width="4"/><rect x="150" y="10" width="400" height="160" fill="none" stroke="#fff" stroke-width="3"/><rect x="250" y="10" width="200" height="70" fill="none" stroke="#fff" stroke-width="3"/><path d="M10 10 H690" stroke="#fff" stroke-width="3"/><circle cx="350" cy="170" r="4" fill="#fff"/>`}
- if(type==="small"){lines=`<rect x="10" y="10" width="680" height="880" rx="3" fill="#247b49" stroke="#fff" stroke-width="4"/><path d="M10 450 H690" stroke="#fff" stroke-width="3"/><circle cx="350" cy="450" r="65" fill="none" stroke="#fff" stroke-width="3"/><rect x="180" y="10" width="340" height="130" fill="none" stroke="#fff" stroke-width="3"/><rect x="180" y="760" width="340" height="130" fill="none" stroke="#fff" stroke-width="3"/><rect x="265" y="10" width="170" height="55" fill="none" stroke="#fff" stroke-width="3"/><rect x="265" y="835" width="170" height="55" fill="none" stroke="#fff" stroke-width="3"/>`}
- return lines}
-function tacticObjMarkup(o){if(o.type==="blue"||o.type==="red"){let fill=o.type==="blue"?"#2563eb":"#dc2626";return `<g class="marker" data-marker="${o.id}" transform="translate(${o.x} ${o.y})"><circle r="25" fill="${fill}" stroke="#fff" stroke-width="4"/><circle r="18" fill="none" stroke="#ffffff99" stroke-width="2"/></g>`}if(o.type==="ball")return `<g class="marker" data-marker="${o.id}" transform="translate(${o.x} ${o.y})"><circle r="23" fill="#111827" stroke="#fff" stroke-width="3"/><circle r="20" fill="#fff" stroke="#111827" stroke-width="1.5"/><path d="M-6 -8 L5 -8 L11 0 L4 9 L-7 6 Z M-6 -8 L-15 -12 M5 -8 L10 -17 M11 0 L20 2 M4 9 L8 18 M-7 6 L-17 12 M-15 -12 L-20 -3 M-17 12 L-8 19" fill="#111827" stroke="#111827" stroke-width="2" stroke-linejoin="round"/></g>`;return `<g class="marker" data-marker="${o.id}" transform="translate(${o.x} ${o.y})"><path d="M0 -20 L18 15 L-18 15 Z" fill="#f59e0b" stroke="#fff" stroke-width="3"/></g>`}
+function tacticPitchLines(){
+ const type=$("pitchType").value;
+ const stripes=Array.from({length:10},(_,i)=>`<rect x="12" y="${12+i*87.6}" width="676" height="87.6" fill="${i%2===0?"#278452":"#217648"}" opacity=".72"/>`).join("");
+ const frame=`<rect x="10" y="10" width="680" height="880" rx="4" fill="url(#pitchGrass)" stroke="#f4fff6" stroke-width="7"/>`;
+ const base=`<defs>
+  <linearGradient id="pitchGrass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#25834f"/><stop offset=".55" stop-color="#17683c"/><stop offset="1" stop-color="#25804b"/></linearGradient>
+  <linearGradient id="pitchShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#001d0d" stop-opacity=".08"/></linearGradient>
+  <pattern id="goalNet" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M0 0H10M0 0V10" stroke="#eaf5ed" stroke-opacity=".72" stroke-width="1"/></pattern>
+ </defs>${frame}${stripes}<rect x="12" y="12" width="676" height="876" fill="url(#pitchShade)"/>`;
+ const line=`stroke="#f5fff7" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
+ let markings="";
+ if(type==="half"){
+  markings=`<g ${line}><path d="M12 20H688"/><rect x="145" y="20" width="410" height="165"/><rect x="245" y="20" width="210" height="75"/><path d="M280 185 A70 70 0 0 0 420 185"/><circle cx="350" cy="185" r="4" fill="#f5fff7" stroke="none"/></g>
+  <g><rect x="285" y="0" width="130" height="22" fill="url(#goalNet)" stroke="#f5fff7" stroke-width="3" rx="2"/></g>`;
+ } else if(type==="small"){
+  markings=`<g ${line}><path d="M12 450H688"/><circle cx="350" cy="450" r="68"/><circle cx="350" cy="450" r="4" fill="#f5fff7" stroke="none"/>
+  <rect x="170" y="12" width="360" height="125"/><rect x="245" y="12" width="210" height="58"/>
+  <rect x="170" y="763" width="360" height="125"/><rect x="245" y="830" width="210" height="58"/></g>
+  <g><rect x="285" y="0" width="130" height="22" fill="url(#goalNet)" stroke="#f5fff7" stroke-width="3" rx="2"/><rect x="285" y="878" width="130" height="22" fill="url(#goalNet)" stroke="#f5fff7" stroke-width="3" rx="2"/></g>`;
+ } else {
+  markings=`<g ${line}><path d="M12 450H688"/><circle cx="350" cy="450" r="86"/><circle cx="350" cy="450" r="4" fill="#f5fff7" stroke="none"/>
+  <rect x="145" y="12" width="410" height="165"/><rect x="245" y="12" width="210" height="75"/><path d="M280 177 A70 70 0 0 0 420 177"/>
+  <rect x="145" y="723" width="410" height="165"/><rect x="245" y="813" width="210" height="75"/><path d="M280 723 A70 70 0 0 1 420 723"/>
+  <circle cx="350" cy="115" r="4" fill="#f5fff7" stroke="none"/><circle cx="350" cy="785" r="4" fill="#f5fff7" stroke="none"/></g>
+  <g><rect x="285" y="0" width="130" height="22" fill="url(#goalNet)" stroke="#f5fff7" stroke-width="3" rx="2"/><rect x="285" y="878" width="130" height="22" fill="url(#goalNet)" stroke="#f5fff7" stroke-width="3" rx="2"/></g>`;
+ }
+ return `${base}${markings}<rect x="10" y="10" width="680" height="880" rx="4" fill="none" stroke="#ffffff" stroke-opacity=".45" stroke-width="2"/>`;
+}
+function tacticObjMarkup(o){if(o.type==="blue"||o.type==="red"){let fill=o.type==="blue"?"#2563eb":"#dc2626";return `<g class="marker" data-marker="${o.id}" transform="translate(${o.x} ${o.y})"><circle cy="3" r="27" fill="#071a10" opacity=".22"/><circle r="25" fill="${fill}" stroke="#fff" stroke-width="4"/><circle r="18" fill="none" stroke="#ffffff99" stroke-width="2"/><path d="M-10 -8 Q0 -17 10 -8 L7 8 Q0 14 -7 8Z" fill="#ffffff" opacity=".13"/></g>`}if(o.type==="ball")return `<g class="marker" data-marker="${o.id}" transform="translate(${o.x} ${o.y})"><circle cy="2" r="24" fill="#061b10" opacity=".25"/><circle r="23" fill="#fff" stroke="#182333" stroke-width="2.5"/><path d="M-7 -9 L5 -10 L12 -1 L7 10 L-5 9 L-12 0Z M-7 -9 L-16 -16 M5 -10 L9 -20 M12 -1 L21 -3 M7 10 L13 19 M-5 9 L-14 16 M-12 0 L-22 1" fill="#182333" stroke="#182333" stroke-width="2.5" stroke-linejoin="round"/><path d="M-7 -9 L-5 9 M5 -10 L7 10" fill="none" stroke="#182333" stroke-width="1.5"/></g>`;return `<g class="marker" data-marker="${o.id}" transform="translate(${o.x} ${o.y})"><path d="M0 -20 L18 15 L-18 15 Z" fill="#f59e0b" stroke="#fff" stroke-width="3"/></g>`}
 function renderTacticPitch(){if(!$ ("tacticsPitch"))return;let strokes=tacticStrokes.map(s=>`<path class="${s.type==="arrow"?"tactic-arrow":"tactic-draw"}" d="${s.d}" ${s.type==="arrow"?'marker-end="url(#tacticArrowHead)"':""}/>`).join("");tacticPitch.innerHTML=`<defs><marker id="tacticArrowHead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#ffe66d"/></marker></defs>${tacticPitchLines()}${strokes}${tacticObjects.map(tacticObjMarkup).join("")}`;wireTacticPitch()}
 function tacticPoint(e){const r=tacticPitch.getBoundingClientRect();return {x:Math.max(12,Math.min(688,(e.clientX-r.left)*700/r.width)),y:Math.max(12,Math.min(888,(e.clientY-r.top)*900/r.height))}}
 function saveTacticFrame(){tacticFrames.push({t:performance.now()-tacticStart,objects:tacticObjects.map(o=>({...o}))})}
