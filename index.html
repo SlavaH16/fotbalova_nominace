@@ -157,6 +157,37 @@
   font-weight: 400;
 }
 
+
+/* Finální sjednocení výšky všech ovládacích polí ve formuláři akce */
+#edit input:not([type="hidden"]):not([type="checkbox"]):not([type="range"]),
+#edit select {
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  padding: 0 10px !important;
+  line-height: normal !important;
+  font-size: 16px !important;
+  border-width: 1px;
+  border-radius: 10px;
+  box-sizing: border-box !important;
+}
+#edit input[type="date"],
+#edit input[type="time"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  padding: 0 10px !important;
+  line-height: normal !important;
+  text-align: center;
+  box-sizing: border-box !important;
+}
+
 </style></head><body>
 <header><div class="inner"><div class="eyebrow">PRO RODIČE A TRENÉRY ⚽</div><h1>Fotbalová nominace</h1><p>Naplánuj akci, vyber hráče a zkopíruj zprávu do WhatsAppu.</p></div></header>
 <nav><button class="primary" data-tab="events">📅 Kalendář</button><button data-tab="edit">✏️ Nová akce</button><button data-tab="players">👟 Hráči</button><button data-tab="lineup">⚽ Rozestavení</button><button data-tab="tools">🖼️ Rozpis</button><button data-tab="stats">📊 Statistiky</button><button data-tab="backup">🛡️ Záloha</button></nav>
