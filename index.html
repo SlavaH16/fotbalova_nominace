@@ -18,6 +18,55 @@
   #edit .event-date-time, #edit .venue-grid { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:8px; }
   #edit input, #edit select { font-size:16px; }
 }
+
+/* Výraznější informace o utkání a počtu nominovaných */
+#lineup #selectedMatchLabel {
+  margin: 14px 0 10px;
+  padding: 14px 16px;
+  border: 2px solid #2864dc;
+  border-radius: 14px;
+  background: #e6efff;
+  color: #173f91;
+  font-weight: 800;
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+#lineup #lineupEventHint {
+  margin: 10px 0 18px;
+  padding: 12px 14px;
+  border-left: 5px solid #e0a72e;
+  border-radius: 8px;
+  background: #fff6df;
+  color: #684b0b;
+  font-weight: 700;
+  line-height: 1.45;
+}
+/* Formulář akce: nativní datum/čas nesmí přetékat z gridu */
+#edit .event-date-time,
+#edit .venue-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+#edit .event-date-time > div,
+#edit .venue-grid > div { min-width: 0; width: 100%; }
+#edit input[type="date"],
+#edit input[type="time"],
+#edit input[type="text"],
+#edit input:not([type]),
+#edit select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#edit input[type="date"],
+#edit input[type="time"] { padding-left: 8px; padding-right: 8px; }
+@media (max-width: 480px) {
+  #edit .event-date-time { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
 </style></head><body>
 <header><div class="inner"><div class="eyebrow">PRO RODIČE A TRENÉRY ⚽</div><h1>Fotbalová nominace</h1><p>Naplánuj akci, vyber hráče a zkopíruj zprávu do WhatsAppu.</p></div></header>
 <nav><button class="primary" data-tab="events">📅 Kalendář</button><button data-tab="edit">✏️ Nová akce</button><button data-tab="players">👟 Hráči</button><button data-tab="lineup">⚽ Rozestavení</button><button data-tab="tools">🖼️ Rozpis</button><button data-tab="stats">📊 Statistiky</button><button data-tab="backup">🛡️ Záloha</button></nav>
@@ -42,7 +91,7 @@ $("new").onclick=()=>openForm();$("cancel").onclick=()=>tab("events");$("save").
 function renderPlayers(){$("playerList").innerHTML=players.map((p,i)=>`<div class="event"><div class="eventbody">${esc(p)}</div><button class="danger small" data-rm="${i}">Odebrat</button></div>`).join("");$("playerList").querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{if(confirm("Odebrat hráče ze soupisky?")){players.splice(+b.dataset.rm,1);save();renderPlayers()}})}
 function eventExcused(id){return new Set(load("fn-excused-"+id,[]))}
 $("addPlayer").onclick=()=>{let n=$("playerName").value.trim();if(!n)return;if(players.some(p=>p.toLowerCase()===n.toLowerCase())){alert("Hráč už v soupisce je.");return}players.push(n);save();$("playerName").value="";renderPlayers()};
-function generator(e){localStorage.setItem("fn-lineup-event",String(e.id));const excused=eventExcused(e.id);let picked=load("fn-pick-"+e.id,players).filter(p=>players.includes(p)&&!excused.has(p)),box=document.createElement("div");box.className="card";box.id="generator";box.innerHTML=`<h2>⚽ ${esc(e.name)}</h2><p class="muted">${long(e.date)} · Sraz ${e.time||"—"}</p><label>Vyber nominované hráče</label><p class="muted">Zaškrtni nominované hráče. Pokud se někdo omluví, zvol „Omluven pro tuto akci“ – nebude možné ho omylem nominovat.</p><div id="picks" class="players">${players.map(p=>`<div class="player ${excused.has(p)?"player-inactive":""}"><input type="checkbox" value="${esc(p)}" ${picked.includes(p)&&!excused.has(p)?"checked":""} ${excused.has(p)?"disabled":""}><span>${esc(p)}</span><button class="small" type="button" data-excuse="${esc(p)}" title="${excused.has(p)?"Znovu aktivovat pro tuto akci":"Omluvit pro tuto akci"}" aria-label="${excused.has(p)?"Znovu aktivovat":"Omluvit"}: ${esc(p)}">${excused.has(p)?"↩":"O"}</button></div>`).join("")||"<p class=\"muted\">V soupisce zatím nejsou žádní hráči.</p>"}</div><label>Hotová zpráva pro WhatsApp</label><textarea id="out" readonly></textarea><div class="actions"><button class="primary" id="copy">Vytvořit zprávu</button><button id="share">Sdílet zprávu</button><button id="save">Uložit</button><button id="close">Zavřít</button></div><div class="toast" id="toast">Nominace se ukládá automaticky. Stisknutím „Uložit“ potvrď uložení; zprávu můžeš vytvořit nebo sdílet.</div>`;$("generator")?.remove();$("events").append(box);function build(){let names=[...box.querySelectorAll("#picks input:checked")].map(x=>x.value);localStorage.setItem("fn-pick-"+e.id,JSON.stringify(names));$("out").value=[`⚽️ ${e.name}`,`🗓️ ${fmt(e.date)}`,`⏰ Sraz ${e.time?e.time.replace(/^0/,""):""}${e.kickoff?` (výkop ${e.kickoff.replace(/^0/,"")})`:""}`,`🏟️ ${e.venue||""}`,...(e.address?[`📍 ${e.address}`]:[]),"","","Nominace:","",...names,...(e.extra?["",e.extra]:[])].join("\n")}box.querySelectorAll('#picks input[type="checkbox"]').forEach(x=>x.onchange=build);box.querySelectorAll("[data-excuse]").forEach(b=>b.onclick=()=>{const p=b.dataset.excuse,set=eventExcused(e.id);if(set.has(p)){set.delete(p)}else{set.add(p);const cb=[...box.querySelectorAll('#picks input[type="checkbox"]')].find(x=>x.value===p);if(cb)cb.checked=false}localStorage.setItem("fn-excused-"+e.id,JSON.stringify([...set]));const current=[...box.querySelectorAll('#picks input[type="checkbox"]:checked')].map(x=>x.value);localStorage.setItem("fn-pick-"+e.id,JSON.stringify(current));generator(e)});build();$("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("out").value)}catch{$("out").focus();$("out").select();document.execCommand("copy")}$("toast").classList.add("show")};$("share").onclick=async()=>{try{if(navigator.share)await navigator.share({text:$("out").value});else{$("out").focus();$("out").select();document.execCommand("copy");$("toast").classList.add("show")}}catch{}};$("save").onclick=()=>{$("toast").textContent="Nominace je uložená v tomto iPhonu."; $("toast").classList.add("show")};$("close").onclick=()=>box.remove();box.scrollIntoView({behavior:"smooth"})}
+function generator(e){localStorage.setItem("fn-lineup-event",String(e.id));const excused=eventExcused(e.id);let picked=load("fn-pick-"+e.id,players).filter(p=>players.includes(p)&&!excused.has(p)),box=document.createElement("div");box.className="card";box.id="generator";box.innerHTML=`<h2>⚽ ${esc(e.name)}</h2><p class="muted">${long(e.date)} · Sraz ${e.time||"—"}</p><label>Vyber nominované hráče</label><p class="muted">Zaškrtni nominované hráče. Pokud se někdo omluví, zvol „Omluven pro tuto akci“ – nebude možné ho omylem nominovat.</p><div id="picks" class="players">${players.map(p=>`<div class="player ${excused.has(p)?"player-inactive":""}"><input type="checkbox" value="${esc(p)}" ${picked.includes(p)&&!excused.has(p)?"checked":""} ${excused.has(p)?"disabled":""}><span>${esc(p)}</span><button class="small" type="button" data-excuse="${esc(p)}" title="${excused.has(p)?"Znovu aktivovat pro tuto akci":"Omluvit pro tuto akci"}" aria-label="${excused.has(p)?"Znovu aktivovat":"Omluvit"}: ${esc(p)}">${excused.has(p)?"↩":"O"}</button></div>`).join("")||"<p class=\"muted\">V soupisce zatím nejsou žádní hráči.</p>"}</div><label>Hotová zpráva pro WhatsApp</label><textarea id="out" readonly></textarea><div class="actions"><button class="primary" id="copy">Vytvořit zprávu</button><button id="share">Sdílet zprávu</button><button id="save">Uložit</button><button id="close">Zavřít</button></div><div class="toast" id="toast">Nominace se ukládá automaticky. Stisknutím „Uložit“ potvrď uložení; zprávu můžeš vytvořit nebo sdílet.</div>`;$("generator")?.remove();$("events").append(box);function build(){let names=[...box.querySelectorAll("#picks input:checked")].map(x=>x.value);localStorage.setItem("fn-pick-"+e.id,JSON.stringify(names));if(document.querySelector('[data-tab="lineup"].primary'))renderLineup();$("out").value=[`⚽️ ${e.name}`,`🗓️ ${fmt(e.date)}`,`⏰ Sraz ${e.time?e.time.replace(/^0/,""):""}${e.kickoff?` (výkop ${e.kickoff.replace(/^0/,"")})`:""}`,`🏟️ ${e.venue||""}`,...(e.address?[`📍 ${e.address}`]:[]),"","","Nominace:","",...names,...(e.extra?["",e.extra]:[])].join("\n")}box.querySelectorAll('#picks input[type="checkbox"]').forEach(x=>x.onchange=build);box.querySelectorAll("[data-excuse]").forEach(b=>b.onclick=()=>{const p=b.dataset.excuse,set=eventExcused(e.id);if(set.has(p)){set.delete(p)}else{set.add(p);const cb=[...box.querySelectorAll('#picks input[type="checkbox"]')].find(x=>x.value===p);if(cb)cb.checked=false}localStorage.setItem("fn-excused-"+e.id,JSON.stringify([...set]));const current=[...box.querySelectorAll('#picks input[type="checkbox"]:checked')].map(x=>x.value);localStorage.setItem("fn-pick-"+e.id,JSON.stringify(current));generator(e)});build();$("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("out").value)}catch{$("out").focus();$("out").select();document.execCommand("copy")}$("toast").classList.add("show")};$("share").onclick=async()=>{try{if(navigator.share)await navigator.share({text:$("out").value});else{$("out").focus();$("out").select();document.execCommand("copy");$("toast").classList.add("show")}}catch{}};$("save").onclick=()=>{$("toast").textContent="Nominace je uložená v tomto iPhonu."; $("toast").classList.add("show")};$("close").onclick=()=>box.remove();box.scrollIntoView({behavior:"smooth"})}
 // Rozestavení 4+1: Tým A a Tým B mají oddělená uložená data.
 let activeTeam="A";
 let lineupView="A";
@@ -74,7 +123,7 @@ function nominatedPlayers(eventId){
  const ev=events.find(e=>String(e.id)===String(eventId));if(!ev)return [];
  const saved=localStorage.getItem("fn-pick-"+ev.id);
  if(saved===null)return [];
- try{return JSON.parse(saved).filter(p=>players.includes(p)&&!inactivePlayers().has(p))}catch{return []}
+ try{const excused=eventExcused(ev.id);return JSON.parse(saved).filter(p=>players.includes(p)&&!excused.has(p))}catch{return []}
 }
 function renderLineup(){
  const validEvents=[...events].sort((a,b)=>a.date.localeCompare(b.date)||(a.time||"").localeCompare(b.time||""));
