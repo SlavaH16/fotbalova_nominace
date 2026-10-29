@@ -608,6 +608,18 @@ I18N_PAIRS.push(...[["Upravit sestavu","Edit line-up"],["Exportovat","Export"],[
 let appLanguage=localStorage.getItem("coach-public-language")==="en"?"en":"cs";
 const I18N_CZ_TO_EN=new Map(I18N_PAIRS),I18N_EN_TO_CZ=new Map(I18N_PAIRS.map(([cs,en])=>[en,cs]));
 const originalTextNodes=new WeakMap(),originalAttributes=new WeakMap();
+function setAppLanguage(lang){
+ appLanguage=lang==="en"?"en":"cs";
+ try{localStorage.setItem("coach-public-language",appLanguage)}catch(e){}
+ const button=document.getElementById("languageToggle");
+ if(button){
+  button.textContent=appLanguage==="en"?"🇨🇿 Čeština":"🇬🇧 English";
+  button.setAttribute("aria-label",appLanguage==="en"?"Přepnout do češtiny":"Switch language to English");
+ }
+ translateNode(document.body);
+ // Re-render date-dependent content so month, weekday and event dates use the selected locale.
+ if(typeof calendar==="function")calendar();
+}
 function translateString(value,lang=appLanguage){
  const original=String(value), map=lang==="en"?I18N_CZ_TO_EN:I18N_EN_TO_CZ;
  const keys=[...map.keys()].sort((a,b)=>b.length-a.length);
@@ -627,7 +639,7 @@ function translateNode(root){
  while((n=walker.nextNode())){
   if(!n.nodeValue.trim())continue;
   const parent=n.parentElement;
-  if(!parent||parent.closest('script,style,textarea,[contenteditable="true"],.eventbody h3,.player span,.position select,.sub-item span'))continue;
+  if(!parent||parent.closest('script,style,textarea,[contenteditable="true"],.eventbody h3,.player span,.position select,.sub-item span')||parent.closest('#languageToggle'))continue;
   if(!originalTextNodes.has(n))originalTextNodes.set(n,n.nodeValue);
   const original=originalTextNodes.get(n),next=translateString(original);
   if(next!==n.nodeValue)n.nodeValue=next;
