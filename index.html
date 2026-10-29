@@ -607,40 +607,41 @@ I18N_PAIRS.push(...[["📌 Nejbližší akce","📌 Next Event"],["Vytvořit nom
 I18N_PAIRS.push(...[["Upravit sestavu","Edit line-up"],["Exportovat","Export"],["FOTBALOVÁ SESTAVA 4+1","FOOTBALL LINE-UP 4+1"],["STŘÍDAJÍCÍ","SUBSTITUTES"],["Brankář","Goalkeeper"],["Obránce","Defender"],["Útočník","Forward"],["— volné —","— vacant —"],["Nominace:","Squad:"],["Sraz","Meet-up"],["výkop","kick-off"],["Sestava","Line-up"],["Omluveno","Excused"],["Zápasy","Matches"],["Celková účast","Total attendance"]]);
 let appLanguage=localStorage.getItem("coach-public-language")==="en"?"en":"cs";
 const I18N_CZ_TO_EN=new Map(I18N_PAIRS),I18N_EN_TO_CZ=new Map(I18N_PAIRS.map(([cs,en])=>[en,cs]));
-function translateString(value,lang=appLanguage){let out=String(value);const map=lang==="en"?I18N_CZ_TO_EN:I18N_EN_TO_CZ;const keys=[...map.keys()].sort((a,b)=>b.length-a.length);for(const key of keys){if(!key)continue;const escaped=key.replace(/[.*+?^${}()|[\]\\\\]/g,"\\\\$&");const left=/^[\p{L}\p{N}]+/u.test(key)?"(?<![\p{L}\p{N}])":"";const right=/[\p{L}\p{N}]+$/u.test(key)?"(?![\p{L}\p{N}])":"";out=out.replace(new RegExp(left+escaped+right,"gu"),map.get(key));}return out}
-// Keep the original Czech/source text for every node and attribute. This prevents
-// repeated language toggles from translating already-translated text (and corrupting words).
 const originalTextNodes=new WeakMap(),originalAttributes=new WeakMap();
+function translateString(value,lang=appLanguage){
+ const original=String(value), map=lang==="en"?I18N_CZ_TO_EN:I18N_EN_TO_CZ;
+ const keys=[...map.keys()].sort((a,b)=>b.length-a.length);
+ let out=original;
+ for(const key of keys){
+  if(!key)continue;
+  const escaped=key.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const left=/^[\p{L}\p{N}]+/u.test(key)?'(?<![\p{L}\p{N}])':'';
+  const right=/[\p{L}\p{N}]+$/u.test(key)?'(?![\p{L}\p{N}])':'';
+  out=out.replace(new RegExp(left+escaped+right,'gu'),map.get(key));
+ }
+ return out;
+}
 function translateNode(root){
  if(!root)return;
- const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
- let n;
+ const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
  while((n=walker.nextNode())){
+  if(!n.nodeValue.trim())continue;
   const parent=n.parentElement;
   if(!parent||parent.closest('script,style,textarea,[contenteditable="true"],.eventbody h3,.player span,.position select,.sub-item span'))continue;
   if(!originalTextNodes.has(n))originalTextNodes.set(n,n.nodeValue);
-  const original=originalTextNodes.get(n);
-  if(!original.trim())continue;
-  const next=translateString(original);
-  if(n.nodeValue!==next)n.nodeValue=next;
+  const original=originalTextNodes.get(n),next=translateString(original);
+  if(next!==n.nodeValue)n.nodeValue=next;
  }
- const els=[];
- if(root.nodeType===1)els.push(root);
- if(root.querySelectorAll)els.push(...root.querySelectorAll('*'));
+ const els=[];if(root.nodeType===1)els.push(root);if(root.querySelectorAll)els.push(...root.querySelectorAll('*'));
  for(const el of els){
   for(const attr of ['placeholder','title','aria-label']){
-   if(!el.getAttribute)continue;
-   const val=el.getAttribute(attr);
-   if(!val)continue;
-   let originals=originalAttributes.get(el);
-   if(!originals){originals=new Map();originalAttributes.set(el,originals);}
+   const val=el.getAttribute&&el.getAttribute(attr);if(!val)continue;
+   let originals=originalAttributes.get(el);if(!originals){originals=new Map();originalAttributes.set(el,originals)}
    if(!originals.has(attr))originals.set(attr,val);
-   const next=translateString(originals.get(attr));
-   if(val!==next)el.setAttribute(attr,next);
+   const next=translateString(originals.get(attr));if(next!==val)el.setAttribute(attr,next);
   }
  }
 }
-function setAppLanguage(lang){appLanguage=lang==="en"?"en":"cs";localStorage.setItem("coach-public-language",appLanguage);document.documentElement.lang=appLanguage;const b=document.getElementById("languageToggle");if(b){b.textContent=appLanguage==="en"?"🇨🇿 Čeština":"🇬🇧 English";b.setAttribute('aria-label',appLanguage==="en"?"Přepnout jazyk na češtinu":"Switch language to English")}translateNode(document.body);if(typeof calendar==="function")calendar();const gen=document.getElementById("generator");if(gen&&typeof gen._buildMessage==="function")gen._buildMessage();}
 function initLanguageToggle(){const b=document.getElementById("languageToggle");if(b)b.addEventListener('click',()=>setAppLanguage(appLanguage==="en"?"cs":"en"));setAppLanguage(appLanguage);const observer=new MutationObserver(records=>{for(const rec of records)for(const node of rec.addedNodes)if(node.nodeType===1||node.nodeType===3)translateNode(node.nodeType===1?node:node.parentElement)});observer.observe(document.body,{childList:true,subtree:true});}
 
 initLanguageToggle();
