@@ -621,17 +621,19 @@ function setAppLanguage(lang){
  if(typeof calendar==="function")calendar();
 }
 function translateString(value,lang=appLanguage){
+ // Translate against the original text in one pass. Sequential replacements
+ // can corrupt newly translated phrases (e.g. New Event / Next Event).
  const original=String(value), map=lang==="en"?I18N_CZ_TO_EN:I18N_EN_TO_CZ;
- const keys=[...map.keys()].sort((a,b)=>b.length-a.length);
- let out=original;
- for(const key of keys){
-  if(!key)continue;
-  const escaped=key.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  const left=/^[\p{L}\p{N}]+/u.test(key)?'(?<![\p{L}\p{N}])':'';
-  const right=/[\p{L}\p{N}]+$/u.test(key)?'(?![\p{L}\p{N}])':'';
-  out=out.replace(new RegExp(left+escaped+right,'gu'),map.get(key));
- }
- return out;
+ const keys=[...map.keys()].filter(Boolean).sort((a,b)=>b.length-a.length);
+ if(!keys.length)return original;
+ const escaped=keys.map(key=>key.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+ const pattern=keys.map((key,i)=>{
+   const left=/^[\p{L}\p{N}]+/u.test(key)?'(?<![\p{L}\p{N}])':'';
+   const right=/[\p{L}\p{N}]+$/u.test(key)?'(?![\p{L}\p{N}])':'';
+   return left+escaped[i]+right;
+ }).join('|');
+ const lookup=new Map(keys.map(key=>[key,map.get(key)]));
+ return original.replace(new RegExp(pattern,'gu'),match=>lookup.get(match)??match);
 }
 function translateNode(root){
  if(!root)return;
