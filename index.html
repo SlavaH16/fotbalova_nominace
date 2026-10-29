@@ -1,0 +1,709 @@
+<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101b33"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><title>Fotbalový trenér</title>
+<style>
+:root{--bg:#eef3fb;--card:#fff;--ink:#172033;--muted:#66738a;--green:#2463d8;--dark:#101b33;--pale:#e5edff;--line:#d7e1f1}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,sans-serif}header{background:var(--dark);color:white;padding:23px 18px}header,main,nav{max-width:760px;margin:auto}header{max-width:none}header .inner{max-width:760px;margin:auto}.eyebrow{font-size:.75rem;letter-spacing:.13em;font-weight:800;color:#a9c8ff}h1{font-size:2.2rem;margin:8px 0}header p{color:#dbe5f7;margin:0}nav{display:flex;gap:8px;padding:12px 16px;overflow:auto}button{border:0;border-radius:11px;padding:10px 12px;font:inherit;font-weight:700;cursor:pointer;background:#e7edf7;color:#26334d}button.primary{background:var(--green);color:white}button.danger{background:#f8e8e6;color:#a63f36}button.small{padding:7px 9px;font-size:.84rem}nav button{flex:1;white-space:nowrap}@media(max-width:600px){nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible;gap:8px;padding:12px 16px}nav button{min-width:0;white-space:normal;overflow-wrap:anywhere;font-size:.88rem;line-height:1.25;padding:10px 6px}}main{padding:0 16px 35px}.panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:16px;margin:12px 0;box-shadow:0 3px 14px #1b352009}h2{font-size:1.15rem;margin:0 0 12px}h3{font-size:1rem;margin:0}.muted{color:var(--muted);font-size:.9rem}label{display:block;font-size:.88rem;font-weight:700;margin:11px 0 5px}input,textarea{width:100%;border:1px solid #cbd6e8;border-radius:10px;background:#fff;color:var(--ink);padding:11px;font:inherit}input[type=checkbox]{width:20px;height:20px;accent-color:var(--green)}textarea{min-height:200px;font: .9rem ui-monospace,monospace}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.actions button{flex:1}.calendar-head{display:flex;justify-content:space-between;align-items:center}.calendar-head button{padding:6px 12px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:10px}.dow{text-align:center;font-size:.75rem;color:var(--muted);padding:4px}.day{position:relative;min-height:39px;padding:5px 0;border-radius:8px;text-align:center;background:#f3f6fc;font-weight:600}.day.other{color:#aab3ad}.day.selected{background:var(--green);color:white}.day.has-event:after{content:"";position:absolute;bottom:3px;left:calc(50% - 3px);width:6px;height:6px;border-radius:50%;background:#d5a53d}.day.selected.has-event:after{background:white}.event{display:flex;gap:10px;margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:12px}.timebox{background:var(--pale);color:var(--green);border-radius:10px;padding:8px;min-width:54px;text-align:center}.eventbody{flex:1;min-width:0}.eventbody p{margin:4px 0}.players{display:grid;grid-template-columns:1fr;gap:8px}.player{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;border:1px solid var(--line);padding:10px 12px;border-radius:10px;background:#f9fbff;font-size:1rem;min-width:0}.player span{min-width:0;overflow-wrap:normal;word-break:normal;hyphens:none;line-height:1.3}.player button{min-width:42px;padding:8px 10px;white-space:nowrap;font-weight:700}.empty{text-align:center;padding:20px;color:var(--muted)}.lineup-switch{display:flex;gap:8px;margin:10px 0}.lineup-switch button{flex:1}.pitch{background:linear-gradient(180deg,#277b4a,#1f6b40);border:3px solid #e7f5e9;border-radius:16px;padding:12px 8px;overflow:hidden;color:white}.pitch-row{display:flex;justify-content:space-around;gap:8px;margin:14px 0 24px;transition:transform .15s ease}.position{flex:1;min-width:0;max-width:48%;text-align:center}.position .shirt{width:40px;height:40px;border-radius:50%;background:#fff;color:#173b80;border:3px solid #d8e7ff;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-weight:900;box-shadow:0 2px 6px #0003}.position select{width:100%;max-width:150px;padding:7px 3px;border-radius:8px;border:1px solid #cbd6e8;font-size:.78rem;background:#fff;color:#172033}.position small{display:block;font-weight:800;margin-bottom:5px;text-shadow:0 1px 3px #000}.sub-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}.sub-item{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:9px;padding:8px;background:#f9fbff;font-size:.9rem}.sub-item input{width:18px;margin:0}.line-adjust{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;margin:8px 0}.line-adjust input{padding:0}.line-adjust span{font-size:.82rem;color:var(--muted)}.player-inactive{opacity:.62;background:#f0f1f4}.upcoming-card{border:2px solid #b9cef8;background:#fff}.upcoming-card .event{margin-bottom:0}@media(max-width:600px){header{padding:12px 16px}h1{font-size:1.55rem;margin:3px 0}.eyebrow{font-size:.65rem}header p{font-size:.85rem}nav{padding:7px 12px;gap:6px}nav button{padding:7px 5px;font-size:.82rem!important}.card{padding:12px;margin:8px 0}.calendar{gap:3px;margin-top:6px}.day{min-height:31px;padding:3px 0;font-size:.85rem}.dow{padding:2px;font-size:.7rem}.calendar-head button{padding:4px 10px}.calendar-head h2{font-size:1rem!important}.calendar-card-note{margin:6px 0 0}.upcoming-card h2{font-size:1rem}.upcoming-card .event{padding:8px;margin-top:8px}.upcoming-card .eventbody p{font-size:.8rem}}@media(max-width:380px){.position select{font-size:.7rem}.position .shirt{width:36px;height:36px}}.note{background:#edf3ff;border-left:3px solid #6a91e8;padding:10px;border-radius:0 9px 9px 0;font-size:.9rem}.toast{display:none;background:var(--pale);padding:10px;border-radius:9px;margin-top:8px}.toast.show{display:block}@media(max-width:380px){.players,.grid2{grid-template-columns:1fr}}
+
+/* Nominace: přehledná tlačítka na mobilu */
+.actions { display:flex; flex-wrap:wrap; gap:10px; }
+.actions button { flex:1 1 130px; min-width:0; white-space:normal; overflow-wrap:anywhere; }
+@media (max-width:480px) {
+  .actions button { flex:1 1 calc(50% - 10px); padding-left:10px; padding-right:10px; }
+}
+
+/* Formulář akce: prvky zůstávají uvnitř karty i na mobilu */
+#edit .card, #edit .card * { box-sizing: border-box; }
+#edit input, #edit select { width:100%; max-width:100%; min-width:0; }
+#edit .grid2 { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+#edit .grid2 > div { min-width:0; }
+@media(max-width:480px) {
+  #edit .event-date-time { grid-template-columns:minmax(0,1fr); gap:4px; }
+  #edit .venue-grid { grid-template-columns:minmax(0,1fr); gap:4px; }
+  #edit input, #edit select { font-size:16px; }
+}
+
+/* Výraznější informace o utkání a počtu nominovaných */
+#lineup #selectedMatchLabel {
+  margin: 14px 0 10px;
+  padding: 12px 14px;
+  border: 1px solid #b9cef8;
+  border-left: 4px solid #2864dc;
+  border-radius: 12px;
+  background: #edf3ff;
+  color: #244a88;
+  font-weight: 600;
+  font-size: .95rem;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+#lineup #lineupEventHint {
+  margin: 10px 0 18px;
+  padding: 12px 14px;
+  border-left: 5px solid #e0a72e;
+  border-radius: 8px;
+  background: #fff6df;
+  color: #684b0b;
+  font-weight: 700;
+  line-height: 1.45;
+}
+/* Formulář akce: nativní datum/čas nesmí přetékat z gridu */
+#edit .event-date-time,
+#edit .venue-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+@media(max-width:480px) {
+  #edit .event-date-time,
+  #edit .venue-grid { grid-template-columns: minmax(0,1fr); }
+}
+#edit .event-date-time > div,
+#edit .venue-grid > div { min-width: 0; width: 100%; }
+#edit input[type="date"],
+#edit input[type="time"],
+#edit input[type="text"],
+#edit input:not([type]),
+#edit select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#edit input[type="date"],
+#edit input[type="time"] { padding-left: 8px; padding-right: 8px; }
+@media (max-width: 480px) {
+  #edit .event-date-time { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+
+
+/* Oprava nativních polí datum/čas na iPhonu: držet přesně uvnitř formuláře */
+#edit .card { min-width: 0; }
+#edit input[type="date"],
+#edit input[type="time"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 11px 8px !important;
+  font-size: 16px !important;
+  overflow: hidden;
+}
+#edit .event-date-time,
+#edit .venue-grid { min-width: 0; }
+/* Finální mobilní oprava formuláře: všechna pole stejně široká a uvnitř karty */
+#edit .event-date-time,
+#edit .venue-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 8px !important;
+  width: 100%;
+}
+#edit .event-date-time > div,
+#edit .venue-grid > div {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+#edit input,
+#edit select {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+#edit input[type="date"],
+#edit input[type="time"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.export-card {
+  border: 2px solid var(--line);
+  background: #f8faff;
+}
+.export-card button { width: 100%; }
+
+/* Jednotná výška nativních polí data a času na iOS */
+#edit input[type="date"],
+#edit input[type="time"],
+#edit select {
+  height: 56px !important;
+  min-height: 56px !important;
+  max-height: 56px;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  line-height: 56px;
+  font-size: 16px;
+  border-radius: 14px;
+  box-sizing: border-box !important;
+}
+#edit input[type="date"],
+#edit input[type="time"] {
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: center;
+}
+#edit .field-hint {
+  display: block;
+  margin-top: 6px;
+  color: #78859b;
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 400;
+}
+
+
+/* Finální sjednocení výšky všech ovládacích polí ve formuláři akce */
+#edit input:not([type="hidden"]):not([type="checkbox"]):not([type="range"]),
+#edit select {
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  padding: 0 10px !important;
+  line-height: normal !important;
+  font-size: 16px !important;
+  border-width: 1px;
+  border-radius: 10px;
+  box-sizing: border-box !important;
+}
+#edit input[type="date"],
+#edit input[type="time"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  padding: 0 10px !important;
+  line-height: normal !important;
+  text-align: center;
+  box-sizing: border-box !important;
+}
+
+
+.tactics-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:12px 0}.tactics-tools button{font-size:.85rem;padding:9px 6px;min-width:0}#tacticsPitchWrap{width:100%;border-radius:12px;overflow:hidden;border:2px solid #d7e1f1;background:#247b49;touch-action:none}#tacticsPitch{display:block;width:100%;height:auto;touch-action:none;user-select:none}#tacticsPitch .marker{cursor:grab;touch-action:none}#tacticsPitch .marker:active{cursor:grabbing}.tactics-card{padding:10px!important}.tactics-card>h2{margin:4px 2px 10px}.tactic-fold{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:#f8faff;overflow:hidden}.tactic-fold summary{padding:13px 14px;font-weight:700;cursor:pointer;color:#243552;list-style-position:inside}.tactic-fold[open] summary{border-bottom:1px solid var(--line);background:#eaf0ff}.tactic-fold>*:not(summary){margin-left:12px;margin-right:12px}.tactic-fold>p{padding-bottom:8px}.tactics-card #tacticsPitchWrap{margin:0 auto;border-radius:10px;box-shadow:0 2px 8px #14213d22}.tactics-card #tacticsPitch{width:100%;height:auto}.tactic-fold .actions{margin-top:10px;margin-bottom:12px}@media(max-width:500px){.tactics-card{padding:8px!important}.tactics-card>h2{font-size:1.15rem}.tactic-fold summary{padding:11px;font-size:.95rem}}.tactic-draw{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}.tactic-arrow{fill:none;stroke:#ffe66d;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}@media(min-width:620px){.tactics-tools{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Vizuální úprava taktické tabule: výraznější travnaté hřiště a kontrastní značky */
+#tacticsPitchWrap{background:#1c7041;border:3px solid #d9e7dc;box-shadow:0 8px 22px #13243a20;border-radius:16px;padding:0}
+#tacticsPitch{filter:drop-shadow(0 2px 2px #06241130)}
+#tactics .tactics-card>h2{display:flex;align-items:center;gap:8px}
+#tactics .tactic-fold{box-shadow:0 2px 7px #152b4908}
+#tactics .tactic-fold summary{font-size:.98rem}
+@media(min-width:620px){#tacticsPitchWrap{max-width:620px}}
+
+.language-row{display:flex;justify-content:flex-end;margin-bottom:8px}.language-toggle{background:#ffffff1c;color:#fff;border:1px solid #ffffff55;border-radius:999px;padding:7px 13px;font-size:.9rem;font-weight:750}.language-toggle:active{transform:scale(.98)}
+@media(max-width:600px){.language-row{margin-bottom:4px}.language-toggle{padding:6px 11px;font-size:.82rem}}
+
+.file-picker{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid #cbd6e8;border-radius:10px;background:#fff;padding:10px;margin-top:6px;min-width:0}
+.file-picker-button{display:inline-block!important;margin:0!important;padding:7px 12px;border-radius:7px;background:#e7edf7;color:#26334d;font-weight:700;cursor:pointer}
+.file-picker-name{font-size:.9rem;color:var(--ink);overflow-wrap:anywhere}
+.file-picker input[type=file]{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.file-picker input[type=file]:focus-visible+label{outline:2px solid var(--green);outline-offset:2px}
+
+/* Interaktivní rozestavení: dotykové i myší ovládání */
+.formation-fold{margin:10px 0;border:1px solid var(--line);border-radius:12px;background:#f8faff;overflow:hidden}.formation-fold summary{padding:13px 14px;font-weight:800;cursor:pointer}.formation-fold[open] summary{background:#eaf0ff;border-bottom:1px solid var(--line)}.formation-fold label,.formation-fold p{margin-left:12px;margin-right:12px;width:calc(100% - 24px);box-sizing:border-box}.formation-fold select{display:block;margin-left:12px!important;margin-right:12px!important;width:calc(100% - 24px)!important;max-width:calc(100% - 24px);min-width:0;box-sizing:border-box}.formation-fold p{padding-bottom:10px}.tactics-player-pitch{position:relative;width:100%;aspect-ratio:2/3;padding:0;overflow:hidden;touch-action:pan-y;user-select:none;background:linear-gradient(180deg,#287b4b,#1e693e);border:3px solid #e7f5e9}.tactics-player-pitch:before{content:"";position:absolute;inset:3%;border:2px solid #ffffffa8;border-radius:2px;pointer-events:none}.tactics-player-pitch:after{content:"";position:absolute;left:3%;right:3%;top:50%;border-top:2px solid #ffffffa8;pointer-events:none}.tactic-center-circle{position:absolute;left:50%;top:50%;width:22%;aspect-ratio:1;transform:translate(-50%,-50%);border:2px solid #ffffffa8;border-radius:50%;pointer-events:none}.tactic-box{position:absolute;left:29%;width:42%;height:12%;border:2px solid #ffffffa8;pointer-events:none}.tactic-box.top{top:3%}.tactic-box.bottom{bottom:3%}.draggable-player{position:absolute;z-index:2;transform:translate(-50%,-50%);width:48px;min-width:48px;height:48px;padding:0;border-radius:50%;border:3px solid #d8e7ff;background:#fff;color:#173b80;box-shadow:0 2px 7px #0004;display:flex;flex-direction:column;align-items:center;justify-content:center;touch-action:none;user-select:none;line-height:1}.draggable-player strong{font-size:16px}.draggable-player small{position:absolute;top:calc(100% + 2px);left:50%;transform:translateX(-50%);max-width:120px;padding:2px 5px;border-radius:5px;background:#102018d9;color:white;font-size:10px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}.draggable-player.dragging{z-index:5;transform:translate(-50%,-50%) scale(1.08);box-shadow:0 5px 15px #0006}.lineup-assignments{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.lineup-assignment{padding:8px;border:1px solid var(--line);border-radius:10px;background:#f8faff;min-width:0}.lineup-assignment label{margin:0 0 5px;font-size:.82rem}.lineup-assignment select{width:100%;min-width:0;padding:8px 4px;border:1px solid #cbd6e8;border-radius:8px;background:white;color:#172033;font:inherit;font-size:.82rem}@media(max-width:380px){.draggable-player{width:42px;min-width:42px;height:42px}.lineup-assignments{grid-template-columns:1fr}}
+</style></head><body>
+<header><div class="inner"><div class="language-row"><button id="languageToggle" class="language-toggle" type="button" aria-label="Switch language to English">🇬🇧 English</button></div><div class="eyebrow">NÁSTROJE PRO FOTBALOVÉ TRENÉRY ⚽</div><h1>Fotbalový trenér</h1><p>Plánuj týmové akce, spravuj hráče, připravuj rozestavení a nominace a kresli herní situace na taktické tabuli.</p></div></header>
+<nav><button class="primary" data-tab="events">📅 Kalendář</button><button data-tab="edit">✏️ Nová akce</button><button data-tab="players">👟 Hráči</button><button data-tab="lineup">⚽ Rozestavení</button><button data-tab="tools">🖼️ Rozpis</button><button data-tab="stats">📊 Statistiky</button><button data-tab="backup">🛡️ Záloha</button><button data-tab="tactics">📋 Taktická tabule</button></nav>
+<main>
+<section id="events" class="panel active"><div id="upcoming" class="card upcoming-card" style="display:none"></div><div class="card calendar-card"><div class="calendar-head"><button id="prev">‹</button><h2 id="monthTitle" style="margin:0"></h2><button id="next">›</button></div><div id="calendar" class="calendar"></div><p class="muted calendar-card-note">Tečka označuje den s uloženou akcí.</p></div><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h2 id="listTitle" style="margin:0"></h2><button class="primary small" id="new">+ Přidat</button></div><div id="eventList"></div></div><p class="note">Akce a hráči se ukládají lokálně v tomto iPhonu. Zatím se nesynchronizují s jinými zařízeními.</p></section>
+<section id="edit" class="panel"><div class="card"><h2 id="formTitle">Nová akce</h2><input id="eventId" type="hidden"><label>Název akce / turnaje</label><input id="name" placeholder="Např. Turnaj nebo trénink"><div class="grid2 event-date-time"><div><label>Datum</label><input id="date" type="date"><small class="field-hint">Vyber datum akce</small></div><div><label>Sraz</label><input id="time" type="time"><small class="field-hint">Vyplň čas srazu</small></div></div><label>Výkop (nepovinné)</label><input id="kickoff" type="time"><small class="field-hint">Vyplň jen pokud znáš čas začátku</small><div class="grid2 venue-grid"><div><label>Povrch</label><select id="surface"><option value="Tráva">Tráva</option><option value="UMT">UMT</option><option value="UMT (nafukovací hala)">UMT (nafukovací hala)</option><option value="Hala">Hala</option></select></div><div><label>Místo</label><input id="place" placeholder="Např. domácí hřiště"></div></div><label>Adresa (nepovinná)</label><input id="address" placeholder="Vyplň jen u venkovních zápasů nebo turnajů"><label>Poznámka (nepovinné)</label><input id="extra" placeholder="Např. s sebou oba dresy"><div class="actions"><button class="primary" id="save">Uložit akci</button><button id="cancel">Zrušit</button></div></div></section>
+<section id="players" class="panel"><div class="card"><h2>Soupiska hráčů</h2><p class="muted">Hráče přidáš jednou, při nominaci už jen zaškrtneš vybrané.</p><label>Jméno hráče</label><input id="playerName" placeholder="Jméno a příjmení"><div class="actions"><button class="primary" id="addPlayer">+ Přidat hráče</button></div><div id="playerList"></div></div></section>
+<section id="lineup" class="panel"><div class="card"><h2>⚽ Rozestavení 4+1</h2><p class="muted">Vyber hráče u jednotlivých pozic. Sestavy se ukládají automaticky v tomto telefonu.</p><label for="lineupMatchSelect">Vybrat utkání</label><select id="lineupMatchSelect" style="width:100%;padding:11px;border:1px solid #cbd6e8;border-radius:10px;background:white;font:inherit;margin-bottom:12px"></select><p class="muted" id="selectedMatchLabel">Vyber utkání pro toto rozestavení.</p><p class="muted" id="lineupEventHint">Rozestavení bude používat pouze hráče uložené v nominaci vybraného zápasu.</p><div class="lineup-switch"><button class="primary" id="teamA">Sestava A</button><button id="teamB">Sestava B</button><button id="teamBoth">A + B</button></div><div id="bothLineups" style="display:none"></div><div id="singleLineupControls"><label>Název týmu (nepovinný)</label><input id="teamName" placeholder="Např. Modří"><details class="formation-fold" id="formationFold"><summary>⚽ <span data-i18n-cs="Rozestavení" data-i18n-en="Formation">Rozestavení</span></summary><label for="formationSelect" data-i18n-cs="Vyber rozestavení" data-i18n-en="Choose formation">Vyber rozestavení</label><select id="formationSelect" style="width:100%;padding:11px;border:1px solid #cbd6e8;border-radius:10px;background:white;font:inherit"><option value="4+1">4+1</option><option value="5+1">5+1</option><option value="7+1">7+1</option></select><p class="muted" data-i18n-cs="Vyber značku a přetáhni ji prstem nebo myší. Hráče vybíráš z nominace daného utkání." data-i18n-en="Drag a marker with your finger or mouse. Assign players from the selected match squad.">Vyber značku a přetáhni ji prstem nebo myší. Hráče vybíráš z nominace daného utkání.</p></details><div id="pitch" class="pitch tactics-player-pitch"></div><div id="lineupAssignments" class="lineup-assignments"></div><h3 style="margin:16px 0 6px">🔄 Střídající</h3><div id="subs" class="sub-list"></div><div class="actions"><button class="primary" id="exportLineup">Exportovat sestavu do obrázku</button><button id="clearLineup">Vymazat toto rozestavení</button></div><div id="lineupStatus" class="toast"></div></div></div></section><section id="stats" class="panel"><div class="card"><h2>📊 Statistiky hráčů</h2><p class="muted">Statistiky standardně počítají pouze proběhlé události. Nominace se bere jako účast, ale ručně upravená docházka má přednost. Poměr ukazuje účasti z celkového počtu proběhlých akcí.</p><label>Sezóna / filtr</label><select id="statsFilter" style="width:100%;padding:11px;border:1px solid #cbd6e8;border-radius:10px;background:white;font:inherit"><option value="past" selected>Proběhlé události</option><option value="all">Všechny události</option><option value="future">Budoucí události</option></select><div id="statsSummary"></div><div id="statsTable"></div><div class="actions"><button class="primary" id="shareStatsImage">📸 Sdílet statistiky jako obrázek</button></div><div id="statsExportStatus" class="toast"></div><h3 style="margin-top:18px">Opravit účast na zápase</h3><label>Vyber událost</label><select id="attendanceEvent" style="width:100%;padding:11px;border:1px solid #cbd6e8;border-radius:10px;background:white;font:inherit"></select><p class="muted">Zaškrtnutí označuje hráče, kteří skutečně nastoupili. Pokud účast ještě nebyla ručně opravena, statistika vychází automaticky z nominace.</p><div id="attendanceList" class="players"></div><div class="actions"><button class="primary" id="saveAttendance">Uložit účast</button><button id="resetAttendance">Vrátit k nominaci</button></div><div id="statsStatus" class="toast"></div></div></section><section id="backup" class="panel"><div class="card"><h2>🛡️ Zálohování a obnova</h2><p class="muted">Záloha obsahuje soupisku, události, nominace, sestavy a ručně upravenou účast. Ulož si ji pravidelně do aplikace Soubory na iPhonu.</p><div class="actions"><button class="primary" id="downloadBackup">Stáhnout kompletní zálohu JSON</button><button id="shareBackup">Sdílet zálohu…</button></div><label>Obnovit ze souboru zálohy JSON</label><div class="file-picker"><input id="backupInput" type="file" accept=".json,application/json"><label class="file-picker-button" for="backupInput" data-file-label>Choose file</label><span class="file-picker-name" id="backupInputName">No file selected</span></div><div class="actions"><button class="primary" id="restoreBackup">Obnovit data ze zálohy</button></div><div id="backupStatus" class="toast"></div><p class="note">Doporučení: po každé větší změně stáhni kompletní zálohu JSON a ulož ji do aplikace Soubory na iPhonu nebo na iCloud Drive. Při obnově vyber uložený soubor výše. Aktualizace aplikace nemá mazat data uložená v tomto telefonu.</p></div></section><section id="tools" class="panel"><div class="card"><h2>🖼️ Import a export rozpisu</h2><p class="muted">Můžeš načíst rozpis z fotky pomocí rozpoznávání textu, nebo pohodlněji importovat tabulku připravenou v Excelu. Pro Excel ulož soubor jako CSV UTF-8 a nahraj ho níže. Sloupce mohou obsahovat datum, název akce, sraz, výkop, povrch, místo, adresu a poznámku.</p><label>Nahrát fotku rozpisu</label><div class="file-picker"><input id="photoInput" type="file" accept="image/*"><label class="file-picker-button" for="photoInput" data-file-label>Choose file</label><span class="file-picker-name" id="photoInputName">No file selected</span></div><div class="actions"><button class="primary" id="ocrBtn">Rozpoznat události z fotky</button></div><label>Nahrát rozpis z Excelu (CSV)</label><div class="file-picker"><input id="csvInput" type="file" accept=".csv,.txt,.tsv,text/csv,text/tab-separated-values"><label class="file-picker-button" for="csvInput" data-file-label>Choose file</label><span class="file-picker-name" id="csvInputName">No file selected</span></div><div class="actions"><button class="primary" id="importCsv">Importovat tabulku CSV</button></div><label>Rozpoznaný text (můžeš opravit)</label><textarea id="ocrText" placeholder="Po rozpoznání se sem vloží text z fotky. Zkontroluj ho a pak klepni na Převést na události."></textarea><div class="actions"><button class="primary" id="parseOcr">Převést text na události</button></div><p class="muted">Import přidává události ke stávajícím. Před uložením se vyhledají duplicity podle data a názvu.</p><div id="toolStatus" class="toast"></div></div><div class="card export-card"><h2>📤 Export kalendáře</h2><p class="muted">Vytvoř obrázek kalendáře a ulož ho nebo sdílej s rodiči a trenéry.</p><button class="primary" id="exportImage">Exportovat kalendář do obrázku</button><div id="exportStatus" class="toast"></div></div></section>
+<section id="tactics" class="panel"><div class="card tactics-card"><h2>📋 Taktická tabule</h2><div id="tacticsPitchWrap"><svg id="tacticsPitch" viewBox="0 0 700 900" role="img" aria-label="Taktická fotbalová tabule"></svg></div><details class="tactic-fold"><summary>⚙️ Nástroje a nastavení hřiště</summary><p class="muted">Vyber typ hřiště a nástroj. Šipku nebo kreslení vypneš opětovným klepnutím na aktivní tlačítko.</p><label for="pitchType">Typ hřiště</label><select id="pitchType" style="width:100%;padding:11px;border:1px solid #cbd6e8;border-radius:10px;background:white;font:inherit"><option value="full">Celé hřiště</option><option value="half">Polovina hřiště</option><option value="small">Malé hřiště 4+1</option></select><div class="tactics-tools"><button class="primary" data-tool="select">↖️ Výběr / pohyb</button><button data-tool="draw">✏️ Kreslit</button><button data-tool="arrow">➡️ Šipka</button><button data-tool="erase">🧽 Guma</button><button data-add="blue">🔵 Hráč modrý</button><button data-add="red">🔴 Hráč červený</button><button data-add="ball">⚽ Míč</button><button data-add="cone">🔶 Kužel</button><button id="undoTactic">↩ Zpět</button><button id="clearTactic">Vymazat tabuli</button></div></details><details class="tactic-fold"><summary>🎬 Nahrávání a přehrávání pohybu</summary><div class="actions"><button class="primary" id="recordTactic">⏺ Nahrávat pohyb</button><button id="playTactic">▶ Přehrát</button><button id="stopTactic">■ Zastavit</button></div><p class="muted">Zapni nahrávání a přesouvej značky. Po dokončení zastav nahrávání, aby bylo možné přehrát nebo exportovat pohyb.</p></details><details class="tactic-fold"><summary>💾 Uložit, exportovat nebo otevřít situaci</summary><div class="actions"><button id="saveTactic">💾 Uložit tabuli</button><button id="exportTactic">📤 Exportovat obrázek</button><button id="exportTacticVideo">🎬 Exportovat video / sdílet</button></div><p id="tacticsStatus" class="muted">Vyber nástroj nebo přidej značku. Při nahrávání přesouvej značky po hřišti.</p><label for="tacticName">Název situace</label><input id="tacticName" placeholder="Např. Rozehrávka od brankáře"><label for="savedTacticSelect">Uložené situace</label><select id="savedTacticSelect" style="width:100%;padding:11px;border:1px solid #cbd6e8;border-radius:10px;background:white;font:inherit"></select><div class="actions"><button id="loadTactic">Otevřít uloženou situaci</button><button class="danger" id="deleteTactic">Smazat uloženou situaci</button></div></details></div></section>
+</main>
+<script>
+const $=id=>document.getElementById(id), defaults=[];
+const load=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}},save=()=>{localStorage.setItem("coach-public-players",JSON.stringify(players));localStorage.setItem("coach-public-events",JSON.stringify(events))};
+let players=[...new Set([...defaults,...load("coach-public-players",[])])],events=load("coach-public-events",[]),selected=new Date(),month=new Date(selected.getFullYear(),selected.getMonth(),1);selected.setHours(12,0,0,0);
+const key=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`,parse=s=>{let [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d,12)},dateLocale=()=>appLanguage==="en"?"en-GB":"cs-CZ",fmt=s=>{let d=parse(s);return new Intl.DateTimeFormat(dateLocale(),{weekday:"long",day:"numeric",month:"numeric"}).format(d)},long=s=>{let d=parse(s);return new Intl.DateTimeFormat(dateLocale(),{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(d)},monthTitle=d=>new Intl.DateTimeFormat(dateLocale(),{month:"long",year:"numeric"}).format(d).replace(/^./,c=>c.toLocaleUpperCase(dateLocale())),esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function tab(id){document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("primary",x.dataset.tab===id));if(id==="events")calendar();if(id==="players")renderPlayers();if(id==="lineup")renderLineup();if(id==="stats")renderStats();if(id==="backup"){}if(id==="tactics")initTactics();scrollTo(0,0)}document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+function calendar(){
+ const today=key(new Date()), upcoming=events.filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||"").localeCompare(b.time||""));
+ const up=$("upcoming"); if(upcoming.length){const e=upcoming[0];up.style.display="block";up.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h2 style="margin:0">📌 Nejbližší akce</h2><div class="actions" style="margin:0;flex:1;justify-content:flex-end"><button class="primary small" data-upcoming-gen="${esc(e.id)}">Vytvořit nominaci</button><button class="small" data-upcoming-edit="${esc(e.id)}">Upravit akci</button></div></div><div class="event"><div class="timebox"><b>${esc(e.time||"—")}</b><br><small>${parse(e.date).getDate()}.${parse(e.date).getMonth()+1}.</small></div><div class="eventbody"><h3>${esc(e.name)}</h3><p class="muted">${esc(long(e.date))}</p>${e.venue?`<p class="muted">${esc(e.venue)}</p>`:""}${e.address?`<p class="muted">${esc(e.address)}</p>`:""}</div></div>`;up.querySelector("[data-upcoming-gen]").onclick=()=>generator(events.find(x=>String(x.id)===String(e.id)));up.querySelector("[data-upcoming-edit]").onclick=()=>openForm(events.find(x=>String(x.id)===String(e.id)))}else{up.style.display="none";up.innerHTML=""}
+ $("monthTitle").textContent=monthTitle(month);let first=new Date(month.getFullYear(),month.getMonth(),1),start=(first.getDay()+6)%7,days=new Date(month.getFullYear(),month.getMonth()+1,0).getDate(),prev=new Date(month.getFullYear(),month.getMonth(),0).getDate(),out=(appLanguage==="en"?["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]:["Po","Út","St","Čt","Pá","So","Ne"]).map(x=>`<div class="dow">${x}</div>`).join("");for(let i=0;i<42;i++){let n=i-start+1,d=n<1?new Date(month.getFullYear(),month.getMonth()-1,prev+n):n>days?new Date(month.getFullYear(),month.getMonth()+1,n-days):new Date(month.getFullYear(),month.getMonth(),n),k=key(d),other=d.getMonth()!==month.getMonth(),has=events.some(e=>e.date===k);out+=`<button class="day ${other?"other":""} ${has?"has-event":""} ${k===key(selected)?"selected":""}" data-date="${k}">${d.getDate()}</button>`}$("calendar").innerHTML=out;$("calendar").querySelectorAll("[data-date]").forEach(b=>b.onclick=()=>{selected=parse(b.dataset.date);month=new Date(selected.getFullYear(),selected.getMonth(),1);calendar()});let list=events.filter(e=>e.date===key(selected)).sort((a,b)=>(a.time||"").localeCompare(b.time||""));$("listTitle").textContent=long(key(selected));$("eventList").innerHTML=list.length?list.map(e=>`<div class="event"><div class="timebox"><b>${e.time||"—"}</b><br><small>${parse(e.date).getDate()}.${parse(e.date).getMonth()+1}.</small></div><div class="eventbody"><h3>${esc(e.name)}</h3><p class="muted">${esc(e.venue)}</p><p class="muted">${esc(e.address)}</p><div class="actions"><button class="primary small" data-gen="${e.id}">Vytvořit nominaci</button><button class="small" data-edit="${e.id}">Upravit</button><button class="danger small" data-del="${e.id}">Smazat</button></div></div></div>`).join(""):'<div class="empty">Na tento den nemáš žádnou akci.</div>';$("eventList").querySelectorAll("[data-gen]").forEach(b=>b.onclick=()=>generator(events.find(e=>e.id===b.dataset.gen)));$("eventList").querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>openForm(events.find(e=>e.id===b.dataset.edit)));$("eventList").querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{if(confirm("Smazat akci?")){events=events.filter(e=>e.id!==b.dataset.del);save();calendar()}})}
+function openForm(e=null){tab("edit");$("formTitle").textContent=e?"Upravit akci":"Nová akce";$("eventId").value=e?.id||"";$("name").value=e?.name||"";$("date").value=e?.date||key(selected);$("time").value=e?.time||"09:00";$("kickoff").value=e?.kickoff||"";const venueParts=(e?.venue||"").split(" - ");const knownSurfaces=["Tráva","UMT","UMT (nafukovací hala)","Hala"];let savedSurface=knownSurfaces.includes(venueParts[0])?venueParts.shift():"Tráva";$("surface").value=savedSurface;$("place").value=venueParts.join(" - ")||"";$("address").value=e?.address||"";$("extra").value=e?.extra||""}
+$("new").onclick=()=>openForm();$("cancel").onclick=()=>tab("events");$("save").onclick=()=>{if(!$("name").value.trim()||!$("date").value){alert("Vyplň název akce a datum.");return}let e={id:$("eventId").value||String(Date.now()),name:$("name").value.trim(),date:$("date").value,time:$("time").value,kickoff:$("kickoff").value,venue:`${$("surface").value} - ${$("place").value.trim()}`.trim().replace(/ - $/,""),address:$("address").value.trim(),extra:$("extra").value.trim()},i=events.findIndex(x=>x.id===e.id);if(i>=0)events[i]=e;else events.push(e);selected=parse(e.date);month=new Date(selected.getFullYear(),selected.getMonth(),1);save();tab("events")};
+function renderPlayers(){$("playerList").innerHTML=players.map((p,i)=>`<div class="event"><div class="eventbody">${esc(p)}</div><button class="danger small" data-rm="${i}">Odebrat</button></div>`).join("");$("playerList").querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{if(confirm("Odebrat hráče ze soupisky?")){players.splice(+b.dataset.rm,1);save();renderPlayers()}})}
+function eventExcused(id){return new Set(load("coach-public-excused-"+id,[]))}
+$("addPlayer").onclick=()=>{let n=$("playerName").value.trim();if(!n)return;if(players.some(p=>p.toLowerCase()===n.toLowerCase())){alert("Hráč už v soupisce je.");return}players.push(n);save();$("playerName").value="";renderPlayers()};
+function generator(e){localStorage.setItem("coach-public-lineup-event",String(e.id));const excused=eventExcused(e.id);let picked=load("coach-public-pick-"+e.id,players).filter(p=>players.includes(p)&&!excused.has(p)),box=document.createElement("div");box.className="card";box.id="generator";box.innerHTML=`<h2>⚽ ${esc(e.name)}</h2><p class="muted">${long(e.date)} · Sraz ${e.time||"—"}</p><label>Vyber nominované hráče</label><p class="muted">Zaškrtni nominované hráče. Pokud se někdo omluví, zvol „Omluven pro tuto akci“ – nebude možné ho omylem nominovat.</p><div id="picks" class="players">${players.map(p=>`<div class="player ${excused.has(p)?"player-inactive":""}"><input type="checkbox" value="${esc(p)}" ${picked.includes(p)&&!excused.has(p)?"checked":""} ${excused.has(p)?"disabled":""}><span>${esc(p)}</span><button class="small" type="button" data-excuse="${esc(p)}" title="${excused.has(p)?"Znovu aktivovat pro tuto akci":"Omluvit pro tuto akci"}" aria-label="${excused.has(p)?"Znovu aktivovat":"Omluvit"}: ${esc(p)}">${excused.has(p)?"↩":"O"}</button></div>`).join("")||"<p class=\"muted\">V soupisce zatím nejsou žádní hráči.</p>"}</div><label>Hotová zpráva pro WhatsApp</label><textarea id="out" readonly></textarea><div class="actions"><button class="primary" id="copy">Vytvořit zprávu</button><button id="share">Sdílet zprávu</button><button id="save">Uložit</button><button id="close">Zavřít</button></div><div class="toast" id="toast">Nominace se ukládá automaticky. Stisknutím „Uložit“ potvrď uložení; zprávu můžeš vytvořit nebo sdílet.</div>`;$("generator")?.remove();$("events").append(box);function build(){let names=[...box.querySelectorAll("#picks input:checked")].map(x=>x.value);localStorage.setItem("coach-public-pick-"+e.id,JSON.stringify(names));if(document.querySelector('[data-tab="lineup"].primary'))renderLineup();const time=e.time?e.time.replace(/^0/,""):"",kick=e.kickoff?` (${translateString("výkop")} ${e.kickoff.replace(/^0/,"")})`:"";$("out").value=[`⚽️ ${e.name}`,`🗓️ ${translateString(fmt(e.date))}`,`⏰ ${translateString("Sraz")} ${time}${kick}`,`🏟️ ${e.venue||""}`,...(e.address?[`📍 ${e.address}`]:[]),"","",translateString("Nominace:"),"",...names,...(e.extra?["",e.extra]:[])].join("\n")}box.querySelectorAll('#picks input[type="checkbox"]').forEach(x=>x.onchange=build);box.querySelectorAll("[data-excuse]").forEach(b=>b.onclick=()=>{const p=b.dataset.excuse,set=eventExcused(e.id);if(set.has(p)){set.delete(p)}else{set.add(p);const cb=[...box.querySelectorAll('#picks input[type="checkbox"]')].find(x=>x.value===p);if(cb)cb.checked=false}localStorage.setItem("coach-public-excused-"+e.id,JSON.stringify([...set]));const current=[...box.querySelectorAll('#picks input[type="checkbox"]:checked')].map(x=>x.value);localStorage.setItem("coach-public-pick-"+e.id,JSON.stringify(current));generator(e)});box._buildMessage=build;build();$("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("out").value)}catch{$("out").focus();$("out").select();document.execCommand("copy")}$("toast").classList.add("show")};$("share").onclick=async()=>{try{if(navigator.share)await navigator.share({text:$("out").value});else{$("out").focus();$("out").select();document.execCommand("copy");$("toast").classList.add("show")}}catch{}};$("save").onclick=()=>{$("toast").textContent="Nominace je uložená v tomto iPhonu."; $("toast").classList.add("show")};$("close").onclick=()=>box.remove();box.scrollIntoView({behavior:"smooth"})}
+// Rozestavení 4+1: Tým A a Tým B mají oddělená uložená data.
+let activeTeam="A";
+let lineupView="A";
+const formationLayouts={
+ "4+1":[[50,13],[30,37],[70,37],[30,67],[70,67]],
+ "5+1":[[50,12],[22,35],[50,32],[78,35],[35,66],[65,66]],
+ "7+1":[[50,11],[20,32],[50,30],[80,32],[25,53],[50,51],[75,53],[50,75]]
+};
+const defaultSlots=(formation="4+1")=>(formationLayouts[formation]||formationLayouts["4+1"]).map(([x,y],i)=>({id:`P${i+1}`,player:"",x,y}));
+const lineupDefaults=()=>({name:"",formation:"4+1",slots:defaultSlots("4+1"),positions:{GK:"",DL:"",DR:"",AL:"",AR:""},subs:[]});
+function migrateLineupShape(data){
+ if(!data||typeof data!=="object")data=lineupDefaults();
+ const formation=formationLayouts[data.formation]?data.formation:"4+1";
+ if(!Array.isArray(data.slots)){
+  const old=data.positions||{};const legacy=[old.GK||"",old.DL||"",old.DR||"",old.AL||"",old.AR||""];
+  data.slots=defaultSlots(formation).map((slot,i)=>({...slot,player:legacy[i]||""}));
+ }else{
+  const base=defaultSlots(formation);data.slots=base.map((slot,i)=>{const existing=data.slots[i]||{};return {...slot,...existing,id:`P${i+1}`,x:Number.isFinite(Number(existing.x))?Math.max(5,Math.min(95,Number(existing.x))):slot.x,y:Number.isFinite(Number(existing.y))?Math.max(6,Math.min(94,Number(existing.y))):slot.y,player:typeof existing.player==="string"?existing.player:""}});
+ }
+ data.formation=formation;data.subs=Array.isArray(data.subs)?data.subs:[];return data;
+}
+function lineupEventId(){
+ const saved=localStorage.getItem("coach-public-lineup-event");
+ if(saved&&events.some(e=>String(e.id)===String(saved)))return String(saved);
+ const withSaved=events.find(e=>String(e.id)===String(load("coach-public-lineup-A",lineupDefaults()).eventId||load("coach-public-lineup-B",lineupDefaults()).eventId||""));
+ return withSaved?String(withSaved.id):(events[0]?String(events[0].id):"");
+}
+function lineupStorageKey(team,eventId=lineupEventId()){return eventId?`coach-public-lineup-${eventId}-${team}`:`coach-public-lineup-${team}`}
+function getLineup(team=activeTeam,eventId=lineupEventId()){
+ const keyName=lineupStorageKey(team,eventId);
+ const stored=localStorage.getItem(keyName);
+ if(stored!==null){try{const data=migrateLineupShape(JSON.parse(stored));if(!Array.isArray(JSON.parse(stored).slots))localStorage.setItem(keyName,JSON.stringify(data));return data}catch{}}
+ // Migrate the previous single lineup into the first match it belonged to.
+ const legacy=load("coach-public-lineup-"+team,lineupDefaults());
+ if(eventId&&legacy.eventId&&String(legacy.eventId)===String(eventId)){
+   const migrated=migrateLineupShape(legacy);localStorage.setItem(keyName,JSON.stringify(migrated));return migrated;
+ }
+ return lineupDefaults();
+}
+function setLineup(data,team=activeTeam,eventId=lineupEventId()){
+ if(eventId){data.eventId=String(eventId);localStorage.setItem("coach-public-lineup-event",String(eventId))}
+ localStorage.setItem(lineupStorageKey(team,eventId),JSON.stringify(data));
+}
+function nominatedPlayers(eventId){
+ if(!eventId)return [];
+ const ev=events.find(e=>String(e.id)===String(eventId));if(!ev)return [];
+ const saved=localStorage.getItem("coach-public-pick-"+ev.id);
+ if(saved===null)return [];
+ try{const excused=eventExcused(ev.id);return JSON.parse(saved).filter(p=>players.includes(p)&&!excused.has(p))}catch{return []}
+}
+function renderLineup(){
+ const singleControls=$("singleLineupControls");if(singleControls)singleControls.style.display=lineupView==="both"?"none":"block";
+ const validEvents=[...events].sort((a,b)=>a.date.localeCompare(b.date)||(a.time||"").localeCompare(b.time||""));
+ let eventId=lineupEventId();const matchSelect=$("lineupMatchSelect");
+ matchSelect.innerHTML=validEvents.map(e=>`<option value="${esc(e.id)}">${esc(e.date)}${e.time?` · ${esc(e.time)}`:""} · ${esc(e.name)}</option>`).join("");
+ if(eventId&&validEvents.some(e=>String(e.id)===String(eventId)))matchSelect.value=String(eventId);
+ else if(validEvents.length){eventId=String(validEvents[0].id);localStorage.setItem("coach-public-lineup-event",eventId);matchSelect.value=eventId}
+ matchSelect.disabled=!validEvents.length;matchSelect.onchange=()=>{localStorage.setItem("coach-public-lineup-event",matchSelect.value);renderLineup()};
+ const data=migrateLineupShape(getLineup(activeTeam,eventId));
+ const lineupHeading=$("lineup").querySelector(".card > h2");if(lineupHeading)lineupHeading.textContent=appLanguage==="en"?`⚽ Team Line-up ${data.formation}`:`⚽ Rozestavení ${data.formation}`;
+ $("teamA").classList.toggle("primary",lineupView==="A");$("teamB").classList.toggle("primary",lineupView==="B");$("teamBoth").classList.toggle("primary",lineupView==="both");
+ const ev=validEvents.find(e=>String(e.id)===String(eventId));
+ $("selectedMatchLabel").textContent=appLanguage==="en"?(ev?`Selected match:\n${ev.date} ${ev.name}\nSelection applies to both Team A and Team B`:"Selected match:\nFirst select a match in Calendar and open its squad."):(ev?`Vybrané utkání:\n${ev.date} ${ev.name}\nVýběr platí pro sestavu A i B`:"Vybrané utkání:\nNejprve vyber utkání v Kalendáři a otevři jeho nominaci.");
+ const allNominated=nominatedPlayers(eventId),hasSquad=!!(eventId&&localStorage.getItem("coach-public-pick-"+eventId)!==null);
+ const oldSlots=data.slots||[];let assigned=oldSlots.map(x=>x.player).filter(Boolean);
+ if(hasSquad){const valid=new Set(allNominated);data.slots.forEach(slot=>{if(slot.player&&!valid.has(slot.player)){slot.player=""}});data.subs=data.subs.filter(p=>valid.has(p)&&!data.slots.some(s=>s.player===p));}
+ const other=migrateLineupShape(getLineup(activeTeam==="A"?"B":"A",eventId));
+ const otherAssigned=[...(other.slots||[]).map(s=>s.player),...(other.subs||[])].filter(Boolean);
+ const currentAssigned=[...(data.slots||[]).map(s=>s.player),...(data.subs||[])].filter(Boolean);
+ const eligible=allNominated.filter(p=>!otherAssigned.includes(p)||currentAssigned.includes(p));
+ $("teamName").value=data.name||"";
+ const formationSelect=$("formationSelect");if(formationSelect){formationSelect.value=data.formation||"4+1";formationSelect.onchange=()=>changeFormation(formationSelect.value,eventId)}
+ const hint=$("lineupEventHint");
+ if(!validEvents.length)hint.textContent=appLanguage==="en"?"Create an event in Calendar first, then select the squad.":"Nejprve vytvoř akci v kalendáři a vyber nominované hráče.";
+ else if(!hasSquad)hint.textContent=appLanguage==="en"?"No squad has been saved for this match yet. Open the match in Calendar and create the squad first.":"Pro tento zápas ještě není uložená nominace. Otevři zápas v kalendáři a vytvoř zprávu s nominací.";
+ else hint.textContent=appLanguage==="en"?`${allNominated.length} players are in the squad. Players assigned to Team ${activeTeam=== "A"?"B":"A"} are unavailable here.`:`V nominaci je ${allNominated.length} hráčů. Hráči přiřazení druhému týmu nejsou pro tým ${activeTeam} dostupní.`;
+ const pitch=$("pitch");pitch.innerHTML='<div class="tactic-center-circle"></div><div class="tactic-box top"></div><div class="tactic-box bottom"></div>';
+ data.slots.forEach((slot,i)=>{const marker=document.createElement("button");marker.type="button";marker.className="draggable-player";marker.dataset.slot=slot.id;marker.style.left=slot.x+"%";marker.style.top=slot.y+"%";marker.setAttribute("aria-label",slot.player?`${i+1}: ${slot.player}`:`Player ${i+1}`);marker.innerHTML=`<strong>${i+1}</strong>${slot.player?`<small>${esc(slot.player)}</small>`:""}`;pitch.append(marker);wirePlayerDrag(marker,slot,pitch,data,eventId)});
+ $("lineupAssignments").innerHTML=data.slots.map((slot,i)=>`<div class="lineup-assignment"><label for="assign-${slot.id}">${appLanguage==="en"?`Player ${i+1}`:`Hráč ${i+1}`}</label><select id="assign-${slot.id}" data-assign="${slot.id}" ${!hasSquad?"disabled":""}><option value="">${appLanguage==="en"?"— Select player —":"— Vyber hráče —"}</option>${eligible.map(p=>`<option value="${esc(p)}" ${slot.player===p?"selected":""} ${data.slots.some(other=>other.id!==slot.id&&other.player===p)?"disabled":""}>${esc(p)}</option>`).join("")}</select></div>`).join("");
+ $("lineupAssignments").querySelectorAll("[data-assign]").forEach(sel=>sel.onchange=()=>{const d=migrateLineupShape(getLineup(activeTeam,eventId));const slot=d.slots.find(x=>x.id===sel.dataset.assign);if(!slot)return;const prior=slot.player;slot.player=sel.value;d.subs=(d.subs||[]).filter(p=>p!==slot.player);if(prior&&!d.slots.some(x=>x.player===prior)&&allNominated.includes(prior)&&!d.subs.includes(prior))d.subs.push(prior);setLineup(d,activeTeam,eventId);renderLineup()});
+ const used=data.slots.map(s=>s.player).filter(Boolean);$("subs").innerHTML=eligible.filter(p=>!used.includes(p)).map(p=>`<label class="sub-item"><input type="checkbox" data-sub="${esc(p)}" ${(data.subs||[]).includes(p)?"checked":""}><span>${esc(p)}</span></label>`).join("")||`<p class="muted">${appLanguage==="en"?"No other selected players available as substitutes.":"Žádní další nominovaní hráči ke střídání."}</p>`;
+ $("subs").querySelectorAll("[data-sub]").forEach(cb=>cb.onchange=()=>{let d=migrateLineupShape(getLineup(activeTeam,eventId));if(cb.checked){if(!d.subs.includes(cb.dataset.sub))d.subs.push(cb.dataset.sub)}else d.subs=d.subs.filter(p=>p!==cb.dataset.sub);setLineup(d,activeTeam,eventId);renderLineup()});
+}
+function changeFormation(formation,eventId){
+ if(!formationLayouts[formation])return;const data=migrateLineupShape(getLineup(activeTeam,eventId)),oldSlots=data.slots||[],oldPlayers=oldSlots.map(s=>s.player||"");
+ const newSlots=defaultSlots(formation);newSlots.forEach((slot,i)=>{slot.player=oldPlayers[i]||""});
+ const overflow=oldPlayers.slice(newSlots.length).filter(Boolean);data.subs=[...new Set([...(data.subs||[]),...overflow])].filter(p=>!newSlots.some(s=>s.player===p));data.formation=formation;data.slots=newSlots;setLineup(data,activeTeam,eventId);renderLineup();
+}
+function wirePlayerDrag(marker,slot,pitch,data,eventId){
+ let startX=0,startY=0,dragging=false,moved=false;
+ marker.addEventListener("pointerdown",e=>{if(e.button!==undefined&&e.button!==0)return;e.preventDefault();startX=e.clientX;startY=e.clientY;dragging=true;moved=false;marker.classList.add("dragging");try{marker.setPointerCapture(e.pointerId)}catch{}});
+ marker.addEventListener("pointermove",e=>{if(!dragging)return;const rect=pitch.getBoundingClientRect();const dx=Math.abs(e.clientX-startX),dy=Math.abs(e.clientY-startY);if(dx+dy>3)moved=true;const x=Math.max(5,Math.min(95,(e.clientX-rect.left)/rect.width*100)),y=Math.max(6,Math.min(94,(e.clientY-rect.top)/rect.height*100));marker.style.left=x+"%";marker.style.top=y+"%";slot.x=x;slot.y=y});
+ const finish=e=>{if(!dragging)return;dragging=false;marker.classList.remove("dragging");if(moved){const d=migrateLineupShape(getLineup(activeTeam,eventId));const target=d.slots.find(s=>s.id===slot.id);if(target){target.x=slot.x;target.y=slot.y;setLineup(d,activeTeam,eventId)}}};marker.addEventListener("pointerup",finish);marker.addEventListener("pointercancel",finish);
+}
+$("teamA").onclick=()=>{activeTeam="A";lineupView="A";$("bothLineups").style.display="none";renderLineup()};
+$("teamB").onclick=()=>{activeTeam="B";lineupView="B";$("bothLineups").style.display="none";renderLineup()};
+$("teamBoth").onclick=()=>{lineupView="both";activeTeam="A";renderLineup();renderBothLineups()};
+function renderBothLineups(){
+ const eventId=lineupEventId(),ev=events.find(e=>String(e.id)===String(eventId));const holder=$("bothLineups");holder.style.display="block";
+ if(!ev){holder.innerHTML=`<p class="note">${appLanguage==="en"?"Select a match in Calendar first.":"Nejprve vyber utkání v Kalendáři."}</p>`;return}
+ holder.innerHTML=["A","B"].map(team=>{const d=migrateLineupShape(getLineup(team,eventId));return `<div class="card"><h3>${appLanguage==="en"?"Team":"Sestava"} ${team}${d.name?` · ${esc(d.name)}`:""}</h3><p class="muted">${esc(ev.date)} · ${esc(ev.name)} · ${esc(d.formation)}</p><div class="players">${d.slots.map((slot,i)=>`<div class="player"><span><b>${appLanguage==="en"?"Player":"Hráč"} ${i+1}:</b> ${esc(slot.player||"—")}</span></div>`).join("")}</div><p><b>${appLanguage==="en"?"Substitutes":"Střídající"}:</b> ${esc((d.subs||[]).join(", ")||"—")}</p><button class="primary small" data-edit-team="${team}">${appLanguage==="en"?"Edit Team":"Upravit sestavu"} ${team}</button><button class="small" data-export-team="${team}">${appLanguage==="en"?"Export":"Exportovat"} ${team}</button></div>`}).join("");
+ holder.querySelectorAll("[data-edit-team]").forEach(b=>b.onclick=()=>{activeTeam=b.dataset.editTeam;lineupView=activeTeam;holder.style.display="none";renderLineup()});holder.querySelectorAll("[data-export-team]").forEach(b=>b.onclick=()=>{activeTeam=b.dataset.exportTeam;exportLineupImage()});
+}
+$("teamName").onchange=()=>{const id=lineupEventId();let d=getLineup(activeTeam,id);d.name=$("teamName").value.trim();setLineup(d,activeTeam,id)};
+$("clearLineup").onclick=()=>{if(confirm("Opravdu vymazat rozestavení tohoto týmu pro vybrané utkání?")){const id=lineupEventId();setLineup(lineupDefaults(),activeTeam,id);renderLineup();$("lineupStatus").textContent=appLanguage==="en"?"The line-up has been cleared.":"Rozestavení bylo vymazáno.";$("lineupStatus").classList.add("show")}};
+async function exportLineupImage(){
+ const eventId=lineupEventId(),ev=events.find(e=>String(e.id)===String(eventId)),d=migrateLineupShape(getLineup(activeTeam,eventId)),subs=d.subs||[];
+ const c=document.createElement("canvas"),ctx=c.getContext("2d"),scale=2,w=900,h=1120;c.width=w*scale;c.height=h*scale;ctx.scale(scale,scale);ctx.fillStyle="#eef3fb";ctx.fillRect(0,0,w,h);ctx.fillStyle="#101b33";ctx.fillRect(0,0,w,120);ctx.fillStyle="#fff";ctx.font="bold 38px Arial";ctx.fillText(appLanguage==="en"?`TEAM LINE-UP ${d.formation}`:`FOTBALOVÁ SESTAVA ${d.formation}`,42,52);ctx.font="bold 30px Arial";ctx.fillText(d.name||`${appLanguage==="en"?"Team":"Tým"} ${activeTeam}`,42,92);ctx.font="20px Arial";ctx.fillText(ev?`${ev.date} · ${ev.name}`:"",42,116);
+ const x=50,y=150,pw=800,ph=710;ctx.fillStyle="#277b4a";ctx.fillRect(x,y,pw,ph);ctx.strokeStyle="#ffffffb8";ctx.lineWidth=3;ctx.strokeRect(x,y,pw,ph);ctx.beginPath();ctx.moveTo(x,y+ph/2);ctx.lineTo(x+pw,y+ph/2);ctx.stroke();ctx.beginPath();ctx.arc(x+pw/2,y+ph/2,80,0,Math.PI*2);ctx.stroke();ctx.strokeRect(x+pw*.29,y, pw*.42,95);ctx.strokeRect(x+pw*.29,y+ph-95,pw*.42,95);
+ d.slots.forEach((slot,i)=>{const cx=x+pw*(slot.x/100),cy=y+ph*(slot.y/100);ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(cx,cy,35,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#d8e7ff";ctx.lineWidth=5;ctx.stroke();ctx.fillStyle="#173b80";ctx.font="bold 25px Arial";ctx.textAlign="center";ctx.fillText(String(i+1),cx,cy+9);if(slot.player){ctx.fillStyle="#fff";ctx.font="bold 18px Arial";let txt=slot.player;while(ctx.measureText(txt).width>220&&txt.length>3)txt=txt.slice(0,-2)+"…";ctx.fillText(txt,cx,cy+57)}});
+ ctx.textAlign="left";ctx.fillStyle="#101b33";ctx.font="bold 27px Arial";ctx.fillText(appLanguage==="en"?"SUBSTITUTES":"STŘÍDAJÍCÍ",50,915);ctx.font="22px Arial";let line="",yy=958;subs.forEach((name,i)=>{let piece=(i?", ":"")+name;if(ctx.measureText(line+piece).width>790){ctx.fillText(line,50,yy);yy+=34;line=name}else line+=piece});if(line)ctx.fillText(line,50,yy);
+ try{const blob=await new Promise((res,rej)=>c.toBlob(b=>b?res(b):rej(new Error("png")),"image/png"));const file=new File([blob],`lineup-${activeTeam}.png`,{type:"image/png"});if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:appLanguage==="en"?"Team line-up":"Fotbalová sestava"});return}const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`lineup-${activeTeam}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);$("lineupStatus").textContent=appLanguage==="en"?"Line-up image is ready to download.":"Obrázek sestavy je připravený ke stažení.";$("lineupStatus").classList.add("show")}catch(e){if(e.name!=="AbortError"){$("lineupStatus").textContent=appLanguage==="en"?"Could not create the image. Try again in Safari.":"Obrázek se nepodařilo vytvořit. Zkus to znovu v Safari.";$("lineupStatus").classList.add("show")}}
+}
+$("exportLineup").onclick=exportLineupImage;
+
+$("prev").onclick=()=>{month=new Date(month.getFullYear(),month.getMonth()-1,1);calendar()};$("next").onclick=()=>{month=new Date(month.getFullYear(),month.getMonth()+1,1);calendar()};
+const showStatus=t=>{const el=$("toolStatus");el.textContent=t;el.classList.add("show")};const showExportStatus=t=>{const el=$("exportStatus");el.textContent=t;el.classList.add("show")};
+function parseCsvRows(text){const firstLine=(text.split(/\\r?\\n/,1)[0]||"");const delimiter=firstLine.includes("\\t")?"\\t":(firstLine.split(";").length>firstLine.split(",").length?";":",");const rows=[];let row=[],field="",quoted=false;for(let i=0;i<text.length;i++){const c=text[i];if(c==='"'){if(quoted&&text[i+1]==='"'){field+='"';i++}else quoted=!quoted}else if(c===delimiter&&!quoted){row.push(field);field=""}else if((c==="\\n"||c==="\\r")&&!quoted){if(c==="\\r"&&text[i+1]==="\\n")i++;row.push(field);rows.push(row);row=[];field=""}else field+=c}if(field.length||row.length){row.push(field);rows.push(row)}return rows}
+function normalizeImportDate(value){let v=String(value||"").trim();let m=v.match(/^(\\d{4})-(\\d{1,2})-(\\d{1,2})$/);if(m)return `${m[1]}-${String(m[2]).padStart(2,"0")}-${String(m[3]).padStart(2,"0")}`;m=v.match(/^(\\d{1,2})[.\\/](\\d{1,2})[.\\/](\\d{2,4})\\.?$/);if(!m)return "";let y=Number(m[3]);if(y<100)y+=2000;return `${y}-${String(Number(m[2])).padStart(2,"0")}-${String(Number(m[1])).padStart(2,"0")}`}
+function normalizeImportTime(value){const m=String(value||"").trim().match(/^(\\d{1,2})[:.](\\d{2})$/);return m&&Number(m[1])<24&&Number(m[2])<60?`${String(Number(m[1])).padStart(2,"0")}:${m[2]}`:""}
+$("importCsv").onclick=async()=>{const f=$("csvInput").files[0];if(!f){showStatus("Nejprve vyber CSV soubor uložený z Excelu.");return}try{const text=await f.text();const rows=parseCsvRows(text);if(rows.length<2){showStatus("Tabulka musí obsahovat záhlaví a alespoň jeden řádek události.");return}const headers=rows[0].map(x=>x.trim().toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g,""));const find=(row,names)=>{const i=headers.findIndex(h=>names.some(n=>h===n||h.includes(n)));return i>=0?(row[i]||"").trim():""};let added=0,skipped=0;for(const row of rows.slice(1)){if(!row.some(x=>x.trim()))continue;let rawDate=find(row,["datum","date"]),name=find(row,["nazev","akce","turnaj","name"]);if(!rawDate||!name){skipped++;continue}let date=normalizeImportDate(rawDate);if(!date){skipped++;continue}let time=normalizeImportTime(find(row,["sraz","cas","time"]));let kickoff=normalizeImportTime(find(row,["vykop","kickoff"]));let surface=find(row,["povrch","surface"]);let place=find(row,["misto","place","lokalita"]);let venue=[surface,place].filter(Boolean).join(" - ")||find(row,["hriste","venue"]);let address=find(row,["adresa","address"]);let extra=find(row,["poznamka","note"]);if(events.some(e=>e.date===date&&String(e.name).toLowerCase()===name.toLowerCase())){skipped++;continue}events.push({id:String(Date.now())+Math.random().toString(16).slice(2),date,name,time,kickoff,venue,address,extra});added++}save();calendar();showStatus(`Import dokončen: přidáno ${added} událostí${skipped?`, přeskočeno ${skipped} řádků (neúplné údaje nebo duplicity)`:""}. Zkontroluj události v kalendáři.`)}catch(err){showStatus("Soubor se nepodařilo načíst. V Excelu ho ulož jako CSV UTF-8 a zkus to znovu.")}};
+$("ocrBtn").onclick=async()=>{const f=$("photoInput").files[0];if(!f){showStatus("Nejprve vyber fotku rozpisu.");return}try{showStatus("Načítám rozpoznávání textu…");if(!window.Tesseract){await new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";sc.onload=res;sc.onerror=rej;document.head.append(sc)})}const result=await Tesseract.recognize(f,"ces+eng",{logger:m=>{if(m.status&&m.progress)$("toolStatus").textContent=`Rozpoznávám text: ${Math.round(m.progress*100)} %`}});$("ocrText").value=result.data.text;showStatus("Text je rozpoznaný. Zkontroluj ho a klepni na Převést text na události.")}catch(e){showStatus("Fotku se nepodařilo automaticky přečíst. Zkus kvalitnější obrázek nebo použij Importovat připravený rozpis (z první fotky).")}};
+function parseOcrLine(raw){
+  let line=raw.replace(/\u00a0/g," ").trim();
+  if(!line || /^(datum|čas|cas|akce|místo|misto|povrch)$/i.test(line)) return null;
+  // Accept date at beginning, with optional separators and time.
+  const dm=line.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})(.*)$/);
+  if(!dm)return null;
+  let [,dd,mm,yy,rest]=dm,year=Number(yy);if(year<100)year+=2000;
+  const day=Number(dd),monthNo=Number(mm);
+  if(monthNo<1||monthNo>12||day<1||day>31)return null;
+  const date=`${year}-${String(monthNo).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+  // Normalize common OCR column separators while preserving single spaces in names.
+  rest=rest.replace(/^[\s|;,:]+/,"").trim();
+  let time="";
+  const tm=rest.match(/\b([01]?\d|2[0-3])[:.]([0-5]\d)\b/);
+  if(tm){time=`${String(Number(tm[1])).padStart(2,"0")}:${tm[2]}`;rest=rest.replace(tm[0]," ").trim()}
+  rest=rest.replace(/^[\s|;,:-]+/,"").replace(/\s+/g," ").trim();
+  if(!rest)return null;
+  // If OCR preserved actual columns (tabs, pipes, semicolons), use those first.
+  const rawRest=dm[4].replace(/^[\s|;,:]+/,"").replace(/\b([01]?\d|2[0-3])[:.]([0-5]\d)\b/," ").trim();
+  let name="",place="",surface="";
+  const explicit=rawRest.split(/\t+|\s+\|\s+|\s*;\s*/).map(x=>x.trim()).filter(Boolean);
+  const surfaces=["UMT/Hala","malá UMT","malá umt","UMT","Hala","Tráva","Umělá tráva","Umělka"];
+  const surfaceRx=/(UMT\s*\/\s*Hala|malá\s+UMT|umělá\s+tráva|umělka|UMT|Hala|Tráva)\s*$/i;
+  let sm=rest.match(surfaceRx);
+  if(sm){surface=sm[1].replace(/\s+/g," ").replace(/^umt$/i,"UMT").replace(/^hala$/i,"Hala").replace(/^tráva$/i,"Tráva");rest=rest.slice(0,sm.index).trim()}
+  // Known venue names help separate the event title from the place even when OCR collapses spacing.
+  const venues=["Zbraslav/Chýně","Zbraslav/Chyne","Zličín","Zlicin","Nymburk","Koloděje","Kolodeje","Kopanina","Slivenec","Dobříš","Dobris","Karlštejn","Karlstejn","Motorlet","Jinočany","Jinocany"];
+  if(explicit.length>=2){
+    name=explicit[0];place=explicit[1];if(explicit.length>=3&&!surface)surface=explicit[2];
+  } else {
+    const low=rest.toLocaleLowerCase("cs");
+    const venue=venues.sort((a,b)=>b.length-a.length).find(v=>low.endsWith(v.toLocaleLowerCase("cs")));
+    if(venue){place=rest.slice(rest.length-venue.length).trim();name=rest.slice(0,rest.length-venue.length).trim()}
+    else {
+      // Common OCR output: title, then location, then surface, separated by two or more spaces.
+      const cols=rawRest.split(/\s{2,}/).map(x=>x.trim()).filter(Boolean);
+      if(cols.length>=2){name=cols[0];place=cols[1];if(cols[2]&&!surface)surface=cols[2]}
+      else name=rest;
+    }
+  }
+  name=name.replace(/[|;,]+$/,"").trim();
+  place=place.replace(/^[\s-]+|[\s-]+$/g,"").trim();
+  if(!name){name=rest;place=""}
+  // If venue was not recognized but trailing surface was, split on known location words in the remaining text.
+  if(!place&&!surface){
+    const cols=rest.split(/\s{2,}/).map(x=>x.trim()).filter(Boolean);
+    if(cols.length>1){name=cols[0];place=cols[1];surface=cols[2]||""}
+  }
+  return {date,time,name,place,surface};
+}
+$("parseOcr").onclick=()=>{
+ const lines=$("ocrText").value.split(/\n/).map(x=>x.trim()).filter(Boolean);
+ let added=0,skipped=0,unread=0;const preview=[];
+ for(const line of lines){
+  const item=parseOcrLine(line);if(!item){unread++;continue}
+  if(!item.name){unread++;continue}
+  const venue=[item.surface,item.place].filter(Boolean).join(" - ");
+  const duplicate=events.some(e=>e.date===item.date&&e.name.trim().toLocaleLowerCase("cs")===item.name.trim().toLocaleLowerCase("cs"));
+  if(duplicate){skipped++;continue}
+  events.push({id:String(Date.now())+Math.random().toString(16).slice(2),date:item.date,name:item.name,time:item.time,venue,address:"",kickoff:"",extra:""});
+  preview.push(`${item.date} ${item.time||"bez času"} | ${item.name} | ${item.place||"místo neuvedeno"} | ${item.surface||"povrch neuveden"}`);added++;
+ }
+ if(added){save();calendar();showStatus(`Importováno ${added} událostí. ${skipped?`Duplicit přeskočeno: ${skipped}. `:""}${unread?`Nerozpoznaných řádků: ${unread}. `:""}Kontrola: ${preview.slice(0,6).join(" • ")}${preview.length>6?" …":""} Otevři události a případné chyby uprav.`)}
+ else showStatus(skipped?`Všechny rozpoznané události už existují. Přeskočeno duplicit: ${skipped}.`:"Nenašel jsem platné řádky. Každý řádek musí začínat datem, např. 18.10.2026, a obsahovat název akce.");
+};
+$("exportImage").onclick=async()=>{const today=new Date();today.setHours(0,0,0,0);const todayKey=key(today);const rows=events.filter(e=>e.date>=todayKey).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||"").localeCompare(b.time||""));if(!rows.length){showStatus("Od dneška už nemáš v kalendáři žádné budoucí události.");return}const c=document.createElement("canvas"),ctx=c.getContext("2d"),scale=2,rowH=62,headH=72,pad=24,width=1500;c.width=width*scale;c.height=(headH+rows.length*rowH+pad*2)*scale;ctx.scale(scale,scale);ctx.fillStyle="#ffffff";ctx.fillRect(0,0,width,c.height/scale);ctx.fillStyle="#173b80";ctx.fillRect(0,0,width,headH);ctx.fillStyle="#fff";ctx.font="bold 34px Arial";const xs=[pad,280,520,920,1240];["DATUM","ČAS","AKCE","MÍSTO","POVRCH"].forEach((t,i)=>ctx.fillText(t,xs[i],39));ctx.font="bold 29px Arial";rows.forEach((e,i)=>{let y=headH+i*rowH;if(i%2===0){ctx.fillStyle="#e8efff";ctx.fillRect(0,y,width,rowH)}ctx.strokeStyle="#b5c9f5";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,y+rowH);ctx.lineTo(width,y+rowH);ctx.stroke();const d=parse(e.date),date=`${String(d.getDate()).padStart(2,"0")}.${String(d.getMonth()+1).padStart(2,"0")}.${d.getFullYear()}`;let vals=[date,e.time||"",e.name||"",(e.venue||"").split(" - ").slice(-1)[0],(e.venue||"").includes(" - ")?(e.venue||"").split(" - ")[0]:""];ctx.fillStyle="#151515";vals.forEach((v,j)=>{let max=[240,220,390,300,230][j];while(ctx.measureText(v).width>max&&v.length>3)v=v.slice(0,-2)+"…";ctx.fillText(v,xs[j],y+39)})});
+try{const blob=await new Promise((resolve,reject)=>c.toBlob(b=>b?resolve(b):reject(new Error("PNG se nepodařilo vytvořit")),"image/png"));const file=new File([blob],"fotbalovy-rozpis.png",{type:"image/png"});if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Fotbalový rozpis",text:"Fotbalový rozpis"});showExportStatus("Obrázek je připravený ke sdílení. V nabídce iPhonu vyber Uložit obrázek nebo Uložit do Fotek, případně WhatsApp.");return}const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="fotbalovy-rozpis.png";a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);showExportStatus("Nabídka sdílení obrázku není v tomto prohlížeči dostupná. Obrázek se stáhl do Stažených; otevři ho a použij Sdílet → Uložit obrázek.")}catch(err){if(err&&err.name==="AbortError"){showStatus("Sdílení bylo zrušeno.")}else{showStatus("Obrázek se nepodařilo sdílet. Zkus to znovu v Safari.")}}};
+// Záloha: ukládá všechny klíče aplikace coach-public-* včetně nominací a sestav.
+function collectBackup(){const data={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith("coach-public-"))data[k]=localStorage.getItem(k)}data["coach-public-players"]=JSON.stringify(players);data["coach-public-events"]=JSON.stringify(events);return {app:"Fotbalová nominace",schemaVersion:2,createdAt:new Date().toISOString(),data}}
+function backupBlob(){return new Blob([JSON.stringify(collectBackup(),null,2)],{type:"application/json"})}
+function downloadBackupFile(){const blob=backupBlob(),url=URL.createObjectURL(blob),a=document.createElement("a"),stamp=new Date().toISOString().slice(0,10);a.href=url;a.download=`fotbalova-nominace-zaloha-${stamp}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),15000);return blob}
+$("downloadBackup").onclick=()=>{downloadBackupFile();showBackupStatus("Záloha byla připravena. Na iPhonu ji ulož do aplikace Soubory nebo na iCloud Drive.")};
+$("shareBackup").onclick=async()=>{try{const blob=backupBlob(),file=new File([blob],`fotbalova-nominace-zaloha-${new Date().toISOString().slice(0,10)}.json`,{type:"application/json"});if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Záloha Fotbalové nominace"});showBackupStatus("Vyber v nabídce iPhonu Soubory, iCloud Drive nebo GitHub.")}else{downloadBackupFile();showBackupStatus("Soubor se stáhl. Najdeš ho v aplikaci Soubory → Stažené.")}}catch(e){if(e.name!=="AbortError")showBackupStatus("Sdílení se nepodařilo. Použij tlačítko Stáhnout kompletní zálohu JSON.")}};
+function showBackupStatus(t){const el=$("backupStatus");el.textContent=t;el.classList.add("show")}
+$("restoreBackup").onclick=async()=>{
+ const f=$("backupInput").files[0];
+ if(!f){showBackupStatus("Nejprve vyber soubor JSON se zálohou.");return}
+ try{
+  const b=JSON.parse(await f.text());
+  if(!b||!b.data||typeof b.data!=="object")throw new Error("Neplatná záloha");
+  const incoming={};
+  for(const [k,v] of Object.entries(b.data)){
+   if(typeof v!=="string")continue;
+   if(k.startsWith("coach-public-")){incoming[k]=v;continue}
+   if(k==="fn-players")incoming["coach-public-players"]=v;
+   else if(k==="fn-events")incoming["coach-public-events"]=v;
+   else if(k==="fn-lineup-event")incoming["coach-public-lineup-event"]=v;
+   else if(k==="fn-tactics-draft")incoming["coach-public-tactics-draft"]=v;
+   else if(k==="fn-tactics-library")incoming["coach-public-tactics-library"]=v;
+   else {
+    let m=k.match(/^fn-(pick|played|excused)-(.+)$/);
+    if(m)incoming[`coach-public-${m[1]}-${m[2]}`]=v;
+    else if((m=k.match(/^fn-lineup-(.+)-(A|B)$/)))incoming[`coach-public-lineup-${m[1]}-${m[2]}`]=v;
+    else if((m=k.match(/^fn-lineup-(A|B)$/)))incoming[`coach-public-lineup-${m[1]}`]=v;
+   }
+  }
+  if(!incoming["coach-public-events"]&&!incoming["coach-public-players"])throw new Error("Záloha neobsahuje rozpoznaná data");
+  if(!confirm("Před obnovou se automaticky stáhne záloha aktuálních dat. Obnovit vybranou zálohu včetně hráčů, akcí, nominací, sestav a taktických situací?"))return;
+  downloadBackupFile();
+  for(const [k,v] of Object.entries(incoming))localStorage.setItem(k,v);
+  players=[...new Set([...defaults,...load("coach-public-players",[])])];
+  events=load("coach-public-events",[]);
+  save();calendar();renderPlayers();renderStats();
+  if(typeof renderSavedTactics==="function")renderSavedTactics();
+  showBackupStatus(`Obnova dokončena. Načteno ${events.length} událostí a ${players.length} hráčů. Záloha před obnovou byla stažena.`);
+ }catch(e){console.error(e);showBackupStatus("Soubor se nepodařilo obnovit. Podporujeme zálohu Fotbalové nominace (fn-*) i novou zálohu této aplikace.")}
+};
+// Statistiky: nominace se počítá jako odehraný zápas; poměr je vůči všem událostem ve zvoleném filtru.
+function eventPicked(e){return load("coach-public-pick-"+e.id,[]).filter(p=>players.includes(p))}
+function eventPlayed(e){
+ const keyName="coach-public-played-"+e.id;
+ if(localStorage.getItem(keyName)!==null){
+   try{return JSON.parse(localStorage.getItem(keyName)).filter(p=>players.includes(p))}catch(_){return eventPicked(e)}
+ }
+ return eventPicked(e);
+}
+function renderStats(){
+ if(!$("statsTable"))return;
+ const filter=$("statsFilter").value||"all",today=key(new Date());
+ const list=events.filter(e=>filter==="future"?e.date>=today:filter==="past"?e.date<today:true).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||"").localeCompare(b.time||"")||String(a.name).localeCompare(String(b.name),"cs"));
+ const rows=players.map(name=>{
+   let nominated=0;
+   for(const e of list) if(eventPlayed(e).includes(name)) nominated++;
+   return {name,nominated,total:list.length,rate:list.length?Math.round(nominated/list.length*100):0};
+ }).sort((a,b)=>b.nominated-a.nominated||a.name.localeCompare(b.name,"cs"));
+ $("statsSummary").innerHTML=`<div class="grid2"><div class="card"><div class="muted">${appLanguage==="en"?"Events in overview":"Akcí v přehledu"}</div><h2>${list.length}</h2></div><div class="card"><div class="muted">${appLanguage==="en"?"Players on roster":"Hráčů v soupisce"}</div><h2>${players.length}</h2></div></div>`;
+ $("statsTable").innerHTML=`<p class="muted">${appLanguage==="en"?"Tap a player’s name to see the matches they took part in.":"Klepni na jméno hráče a zobrazíš utkání, kterých se zúčastnil."}</p><div style="overflow-x:auto"><table id="statsShareTable" style="width:100%;border-collapse:collapse;font-size:.88rem"><thead><tr><th style="text-align:left;padding:9px 5px;border-bottom:1px solid var(--line)">${appLanguage==="en"?"Player":"Hráč"}</th><th style="padding:9px 5px;border-bottom:1px solid var(--line)">${appLanguage==="en"?"Appearances / events":"Účasti / akce"}</th><th style="padding:9px 5px;border-bottom:1px solid var(--line)">${appLanguage==="en"?"Attendance":"Účast"}</th></tr></thead><tbody>${rows.map((r,i)=>{const playedEvents=list.filter(e=>eventPlayed(e).includes(r.name)).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||"").localeCompare(b.time||"")||String(a.name).localeCompare(String(b.name),"cs"));return `<tr><td style="padding:9px 5px;border-bottom:1px solid var(--line)"><button type="button" data-player-detail="${esc(r.name)}" style="background:none;border:0;padding:4px 0;color:var(--text);font:inherit;text-align:left;text-decoration:underline;cursor:pointer">${esc(r.name)} ▾</button></td><td style="text-align:center;padding:9px 5px;border-bottom:1px solid var(--line);font-weight:700">${r.nominated}/${r.total}</td><td style="text-align:center;padding:9px 5px;border-bottom:1px solid var(--line)">${r.rate}%</td></tr><tr id="player-detail-${i}" data-detail-row="${esc(r.name)}" hidden><td colspan="3" style="padding:10px 12px;background:var(--soft);border-bottom:1px solid var(--line)"><strong>${appLanguage==="en"?"Matches":"Utkání"} (${playedEvents.length})</strong>${playedEvents.length?`<ul style="margin:7px 0 0;padding-left:20px">${playedEvents.map(e=>`<li>${esc(e.name)}</li>`).join("")}</ul>`:'<p class="muted" style="margin:6px 0 0">${appLanguage==="en"?"No attendance recorded in this overview yet.":"V tomto přehledu zatím žádná účast."}</p>'}</td></tr>`}).join("")}</tbody></table></div>`; 
+ $("statsTable").querySelectorAll("[data-player-detail]").forEach(btn=>btn.onclick=()=>{const name=btn.dataset.playerDetail;const row=$("statsTable").querySelector(`[data-detail-row="${CSS.escape(name)}"]`);if(row){row.hidden=!row.hidden;btn.textContent=name+(row.hidden?" ▾":" ▴")}});
+ const evs=[...events].sort((a,b)=>b.date.localeCompare(a.date));
+ $("attendanceEvent").innerHTML=evs.map(e=>`<option value="${esc(e.id)}">${esc(e.date)} – ${esc(e.name)}</option>`).join("");
+ renderAttendanceList();
+}
+function renderAttendanceList(){const id=$("attendanceEvent")?.value,e=events.find(x=>String(x.id)===String(id));if(!e){$("attendanceList").innerHTML='<p class="muted">Nejprve vytvoř událost.</p>';return}const picked=eventPicked(e),played=eventPlayed(e);$("attendanceList").innerHTML=picked.length?picked.map(p=>`<label class="player"><input type="checkbox" data-played="${esc(p)}" ${played.includes(p)?"checked":""}><span>${esc(p)}</span></label>`).join(""):'<p class="muted">Pro tuto událost zatím není uložená nominace. Otevři zápas v kalendáři a vytvoř nominaci.</p>'}
+$("statsFilter").onchange=renderStats;$("attendanceEvent").onchange=renderAttendanceList;$("saveAttendance").onclick=()=>{const id=$("attendanceEvent").value,e=events.find(x=>String(x.id)===String(id));if(!e)return;const names=[...$("attendanceList").querySelectorAll("[data-played]:checked")].map(x=>x.dataset.played);localStorage.setItem("coach-public-played-"+e.id,JSON.stringify(names));renderStats();const el=$("statsStatus");el.textContent="Účast byla uložena. Statistiky se přepočítaly.";el.classList.add("show")};$("resetAttendance").onclick=()=>{const id=$("attendanceEvent").value;if(!id)return;localStorage.removeItem("coach-public-played-"+id);renderStats();const el=$("statsStatus");el.textContent="Ruční oprava byla odstraněna. Účast se opět počítá podle nominace.";el.classList.add("show")};
+
+// Export statistik do obrázku: nabídne nativní sdílení iPhonu, případně stáhne PNG.
+function statsEscape(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;")}
+async function exportStatsImage(){
+ const status=$("statsExportStatus");
+ try{
+  const filter=$("statsFilter").value||"all",today=key(new Date());
+  const list=events.filter(e=>filter==="future"?e.date>=today:filter==="past"?e.date<today:true).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||"").localeCompare(b.time||"")||String(a.name).localeCompare(String(b.name),"cs"));
+  const rows=players.map(name=>({name,count:list.filter(e=>eventPlayed(e).includes(name)).length,total:list.length}))
+    .sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name,"cs"));
+  const width=900,rowH=58,top=180,height=top+rows.length*rowH+55;
+  let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+  <rect width="100%" height="100%" fill="#eef3fb"/>
+  <rect x="0" y="0" width="${width}" height="128" fill="#101b33"/>
+  <text x="38" y="48" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#a9c8ff">FOTBALOVÁ NOMINACE ⚽</text>
+  <text x="38" y="91" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#ffffff">Statistiky hráčů</text>
+  <text x="38" y="153" font-family="Arial,sans-serif" font-size="18" fill="#172033">${statsEscape(filter==="past"?"Proběhlé události":filter==="future"?"Budoucí události":"Všechny události")} · Celkem akcí: ${list.length}</text>
+  <rect x="28" y="170" width="844" height="48" rx="8" fill="#1d417f"/>
+  <text x="48" y="201" font-family="Arial,sans-serif" font-size="19" font-weight="700" fill="#ffffff">HRÁČ</text>
+  <text x="590" y="201" text-anchor="middle" font-family="Arial,sans-serif" font-size="19" font-weight="700" fill="#ffffff">ODEHRANÉ / CELKEM</text>
+  <text x="810" y="201" text-anchor="middle" font-family="Arial,sans-serif" font-size="19" font-weight="700" fill="#ffffff">ÚČAST</text>`;
+  rows.forEach((r,i)=>{
+   const y=218+i*rowH;
+   svg+=`<rect x="28" y="${y}" width="844" height="${rowH}" fill="${i%2===0?"#ffffff":"#e5edff"}"/>
+   <text x="48" y="${y+36}" font-family="Arial,sans-serif" font-size="20" fill="#172033">${statsEscape(r.name)}</text>
+   <text x="590" y="${y+36}" text-anchor="middle" font-family="Arial,sans-serif" font-size="21" font-weight="700" fill="#172033">${r.count}/${r.total}</text>
+   <text x="810" y="${y+36}" text-anchor="middle" font-family="Arial,sans-serif" font-size="21" font-weight="700" fill="#172033">${r.total?Math.round(r.count/r.total*100):0}%</text>`;
+  });
+  svg+=`<text x="30" y="${height-18}" font-family="Arial,sans-serif" font-size="13" fill="#66738a">Účast se počítá podle nominace. Vygenerováno ${new Date().toLocaleDateString("cs-CZ")}.</text></svg>`;
+  const blob=new Blob([svg],{type:"image/svg+xml;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const img=new Image();
+  img.onload=async()=>{
+   try{
+    const canvas=document.createElement("canvas");canvas.width=width*2;canvas.height=height*2;
+    const ctx=canvas.getContext("2d");ctx.scale(2,2);ctx.drawImage(img,0,0,width,height);
+    const png=await new Promise(resolve=>canvas.toBlob(resolve,"image/png"));
+    URL.revokeObjectURL(url);
+    if(!png)throw new Error("PNG");
+    const file=new File([png],`fotbalove-statistiky-${new Date().toISOString().slice(0,10)}.png`,{type:"image/png"});
+    if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+      await navigator.share({files:[file],title:"Statistiky fotbalové nominace"});
+      status.textContent="Obrázek statistik je připraven ke sdílení.";status.classList.add("show");
+    }else{
+      const a=document.createElement("a");a.href=URL.createObjectURL(png);a.download=file.name;document.body.appendChild(a);a.click();a.remove();
+      status.textContent="Obrázek statistik se stáhl. Na iPhonu ho najdeš v aplikaci Soubory → Stažené.";status.classList.add("show");
+    }
+   }catch(err){URL.revokeObjectURL(url);if(err.name!=="AbortError"){status.textContent="Obrázek se nepodařilo vytvořit. Zkus to znovu.";status.classList.add("show")}}
+  };
+  img.onerror=()=>{URL.revokeObjectURL(url);status.textContent="Obrázek se nepodařilo vytvořit.";status.classList.add("show")};
+  img.src=url;
+ }catch(e){status.textContent="Export statistik se nepodařil.";status.classList.add("show")}
+}
+$("shareStatsImage").onclick=exportStatsImage;
+
+// OCR: vylepšené parsování dat a časů, kontrola duplicit a přehled importu.
+
+// Samostatná taktická tabule: značky, kreslení, pohybové snímky a lokální uložení.
+let tacticTool="select",tacticObjects=[],tacticStrokes=[],tacticFrames=[],tacticRecording=false,tacticStart=0,tacticTimer=null,tacticPointer=null,tacticCurrentId=null,tacticInitialized=false;
+const tacticStoreKey="coach-public-tactics-library",tacticPitch=$ ("tacticsPitch");
+function tacticDefault(){tacticObjects=[{id:"m1",type:"blue",x:350,y:735},{id:"m2",type:"blue",x:245,y:590},{id:"m3",type:"blue",x:455,y:590},{id:"m4",type:"blue",x:250,y:390},{id:"m5",type:"blue",x:450,y:390},{id:"r1",type:"red",x:350,y:450},{id:"ball1",type:"ball",x:390,y:470}];tacticStrokes=[];tacticFrames=[];tacticCurrentId=null;renderTacticPitch()}
+function tacticPitchLines(){
+ const type=$("pitchType").value;
+ const stripes=Array.from({length:10},(_,i)=>`<rect x="12" y="${12+i*87.6}" width="676" height="87.6" fill="${i%2===0?"#278452":"#217648"}" opacity=".72"/>`).join("");
+ const frame=`<rect x="10" y="10" width="680" height="880" rx="4" fill="url(#pitchGrass)" stroke="#f4fff6" stroke-width="7"/>`;
+ const base=`<defs>
+  <linearGradient id="pitchGrass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#25834f"/><stop offset=".55" stop-color="#17683c"/><stop offset="1" stop-color="#25804b"/></linearGradient>
+  <linearGradient id="pitchShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#001d0d" stop-opacity=".08"/></linearGradient>
+  <pattern id="goalNet" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M0 0H10M0 0V10" stroke="#eaf5ed" stroke-opacity=".72" stroke-width="1"/></pattern>
+ </defs>${frame}${stripes}<rect x="12" y="12" width="676" height="876" fill="url(#pitchShade)"/>`;
+ const line=`stroke="#f5fff7" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
+ let markings="";
+ if(type==="half"){
+  markings=`<g ${line}><path d="M12 20H688"/><rect x="145" y="20" width="410" height="165"/><rect x="245" y="20" width="210" height="75"/><path d="M280 185 A70 70 0 0 0 420 185"/><circle cx="350" cy="185" r="4" fill="#f5fff7" stroke="none"/></g>
+  <g><rect x="285" y="0" width="130" height="22" fill="url(#goalNet)" stroke="#f5fff7" stroke-width="3" rx="2"/></g>`;
+ } else if(type==="small"){
+  markings=`<g ${line}><path d="M12 450H688"/><circle cx="350" cy="450" r="68"/><circle cx="350" cy="450" r="4" fill="#f5fff7" stroke="none"/>
+  <rect x="170" y="12" width="360" height="125"/><rect x="245" y="12" width="210" height="58"/>
+  <rect x="170" y="763" width="360" height="125"/><rect x="245" y="830" width="210" height="58"/></g>
+  <g><rect x="285" y="0" width="130" height="22" fill="url(#goalNet)" stroke="#f5fff7" stroke-width="3" rx="2"/><rect x="285" y="878" width="130" height="22" fill="url(#goalNet)" stroke="#f5fff7" stroke-width="3" rx="2"/></g>`;
+ } else {
+  markings=`<g ${line}><path d="M12 450H688"/><circle cx="350" cy="450" r="86"/><circle cx="350" cy="450" r="4" fill="#f5fff7" stroke="none"/>
+  <rect x="145" y="12" width="410" height="165"/><rect x="245" y="12" width="210" height="75"/><path d="M280 177 A70 70 0 0 0 420 177"/>
+  <rect x="145" y="723" width="410" height="165"/><rect x="245" y="813" width="210" height="75"/><path d="M280 723 A70 70 0 0 1 420 723"/>
+  <circle cx="350" cy="115" r="4" fill="#f5fff7" stroke="none"/><circle cx="350" cy="785" r="4" fill="#f5fff7" stroke="none"/></g>
+  <g><rect x="285" y="0" width="130" height="22" fill="url(#goalNet)" stroke="#f5fff7" stroke-width="3" rx="2"/><rect x="285" y="878" width="130" height="22" fill="url(#goalNet)" stroke="#f5fff7" stroke-width="3" rx="2"/></g>`;
+ }
+ return `${base}${markings}<rect x="10" y="10" width="680" height="880" rx="4" fill="none" stroke="#ffffff" stroke-opacity=".45" stroke-width="2"/>`;
+}
+function tacticObjMarkup(o){if(o.type==="blue"||o.type==="red"){let fill=o.type==="blue"?"#2563eb":"#dc2626";return `<g class="marker" data-marker="${o.id}" transform="translate(${o.x} ${o.y})"><circle cy="3" r="32" fill="#071a10" opacity=".22"/><circle r="30" fill="${fill}" stroke="#fff" stroke-width="4.5"/><circle r="22" fill="none" stroke="#ffffff99" stroke-width="2.5"/><path d="M-10 -8 Q0 -17 10 -8 L7 8 Q0 14 -7 8Z" fill="#ffffff" opacity=".13"/></g>`}if(o.type==="ball")return `<g class="marker" data-marker="${o.id}" transform="translate(${o.x} ${o.y})"><circle cy="2" r="28" fill="#061b10" opacity=".25"/><circle r="27" fill="#fff" stroke="#182333" stroke-width="2.8"/><path d="M-7 -9 L5 -10 L12 -1 L7 10 L-5 9 L-12 0Z M-7 -9 L-16 -16 M5 -10 L9 -20 M12 -1 L21 -3 M7 10 L13 19 M-5 9 L-14 16 M-12 0 L-22 1" fill="#182333" stroke="#182333" stroke-width="2.5" stroke-linejoin="round"/><path d="M-7 -9 L-5 9 M5 -10 L7 10" fill="none" stroke="#182333" stroke-width="1.5"/></g>`;return `<g class="marker" data-marker="${o.id}" transform="translate(${o.x} ${o.y})"><path d="M0 -20 L18 15 L-18 15 Z" fill="#f59e0b" stroke="#fff" stroke-width="3"/></g>`}
+function renderTacticPitch(){if(!$ ("tacticsPitch"))return;let strokes=tacticStrokes.map(s=>`<path class="${s.type==="arrow"?"tactic-arrow":"tactic-draw"}" d="${s.d}" ${s.type==="arrow"?'marker-end="url(#tacticArrowHead)"':""}/>`).join("");tacticPitch.innerHTML=`<defs><marker id="tacticArrowHead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#ffe66d"/></marker></defs>${tacticPitchLines()}${strokes}${tacticObjects.map(tacticObjMarkup).join("")}`;wireTacticPitch()}
+function tacticPoint(e){const r=tacticPitch.getBoundingClientRect();return {x:Math.max(12,Math.min(688,(e.clientX-r.left)*700/r.width)),y:Math.max(12,Math.min(888,(e.clientY-r.top)*900/r.height))}}
+function saveTacticFrame(){tacticFrames.push({t:performance.now()-tacticStart,objects:tacticObjects.map(o=>({...o}))})}
+function wireTacticPitch(){tacticPitch.querySelectorAll("[data-marker]").forEach(el=>{el.addEventListener("pointerdown",e=>{if(tacticTimer)return;e.preventDefault();e.stopPropagation();if(tacticTool==="erase"){tacticObjects=tacticObjects.filter(o=>o.id!==el.dataset.marker);renderTacticPitch();saveTacticDraft();$("tacticsStatus").textContent="Značka byla odstraněna.";return}if(tacticTool!=="select")return;el.setPointerCapture?.(e.pointerId);tacticPointer={id:el.dataset.marker,pointer:e.pointerId};tacticPitch.setPointerCapture?.(e.pointerId)});});tacticPitch.onpointerdown=e=>{if(e.target.closest("[data-marker]"))return;let pt=tacticPoint(e);if(tacticTool==="erase"){let nearest=tacticObjects.map(o=>({...o,d:Math.hypot(o.x-pt.x,o.y-pt.y)})).sort((a,b)=>a.d-b.d)[0];if(nearest&&nearest.d<55){tacticObjects=tacticObjects.filter(o=>o.id!==nearest.id);renderTacticPitch();saveTacticDraft();$("tacticsStatus").textContent="Značka byla odstraněna."}else if(tacticStrokes.length){tacticStrokes.pop();renderTacticPitch();saveTacticDraft();$("tacticsStatus").textContent="Poslední čára nebo šipka byla odstraněna."}return}if(tacticTool==="draw"||tacticTool==="arrow"){e.preventDefault();tacticPointer={draw:true,type:tacticTool,start:pt,last:pt,path:`M ${pt.x} ${pt.y}`};tacticPitch.setPointerCapture?.(e.pointerId)}};tacticPitch.onpointermove=e=>{if(!tacticPointer)return;const pt=tacticPoint(e);if(tacticPointer.draw){tacticPointer.last=pt;tacticPointer.path+=` L ${pt.x} ${pt.y}`;renderTacticPitch();let path=document.createElementNS("http://www.w3.org/2000/svg","path");path.setAttribute("d",tacticPointer.path);path.setAttribute("class",tacticPointer.type==="arrow"?"tactic-arrow":"tactic-draw");tacticPitch.append(path)}else{let o=tacticObjects.find(x=>x.id===tacticPointer.id);if(o){o.x=pt.x;o.y=pt.y;renderTacticPitch();if(tacticRecording)saveTacticFrame()}}};tacticPitch.onpointerup=e=>{if(!tacticPointer)return;if(tacticPointer.draw){let d=tacticPointer.type==="arrow"?`M ${tacticPointer.start.x} ${tacticPointer.start.y} L ${tacticPointer.last.x} ${tacticPointer.last.y}`:tacticPointer.path;tacticStrokes.push({type:tacticPointer.type,d});renderTacticPitch()}else if(tacticRecording)saveTacticFrame();tacticPointer=null;saveTacticDraft()}}
+function saveTacticDraft(){localStorage.setItem("coach-public-tactics-draft",JSON.stringify({objects:tacticObjects,strokes:tacticStrokes,frames:tacticFrames,pitch:$ ("pitchType").value,name:$ ("tacticName").value}))}
+function initTactics(){if(tacticInitialized){renderSavedTactics();return}tacticInitialized=true;tacticDefault();$("pitchType").value="full";$("tacticName").value="";renderTacticPitch();renderSavedTactics();document.querySelectorAll("[data-tool]").forEach(b=>b.onclick=()=>{tacticTool=(tacticTool===b.dataset.tool&&b.dataset.tool!=="select")?"select":b.dataset.tool;document.querySelectorAll("[data-tool]").forEach(x=>x.classList.toggle("primary",x.dataset.tool===tacticTool));$("tacticsStatus").textContent=tacticTool==="select"?"Režim výběru: můžeš přesouvat značky. Zvolený nástroj byl vypnut.":tacticTool==="draw"?"Táhni prstem po hřišti a kresli.":"Táhni od začátku do konce šipky. Klepni na Šipka znovu pro vypnutí."});document.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{let type=b.dataset.add;tacticObjects.push({id:"t"+Date.now()+Math.random().toString(16).slice(2,5),type,x:350+(Math.random()*100-50),y:450+(Math.random()*100-50)});renderTacticPitch();saveTacticDraft()});$("pitchType").onchange=()=>{renderTacticPitch();saveTacticDraft()};$("undoTactic").onclick=()=>{if(tacticStrokes.length)tacticStrokes.pop();else tacticObjects.pop();renderTacticPitch();saveTacticDraft()};$("clearTactic").onclick=()=>{if(confirm("Opravdu vymazat všechny značky a kresby?")){stopTacticPlayback();tacticDefault();saveTacticDraft()}};$("recordTactic").onclick=()=>{if(tacticRecording){tacticRecording=false;saveTacticFrame();$("recordTactic").textContent="⏺ Nahrávat pohyb";$("tacticsStatus").textContent=`Nahrávání dokončeno: ${tacticFrames.length} pohybových snímků.`;saveTacticDraft()}else{stopTacticPlayback();tacticFrames=[];tacticRecording=true;tacticStart=performance.now();saveTacticFrame();$("recordTactic").textContent="■ Ukončit nahrávání";$("tacticsStatus").textContent="Nahrávání běží. Přesouvej značky po hřišti."}};$("playTactic").onclick=playTactic;$("stopTactic").onclick=stopTacticPlayback;$("saveTactic").onclick=saveTacticToLibrary;$("loadTactic").onclick=loadTacticFromLibrary;$("deleteTactic").onclick=deleteTacticFromLibrary;$("exportTactic").onclick=exportTacticImage;$("exportTacticVideo").onclick=exportTacticVideo;$("tacticName").onchange=saveTacticDraft}
+function stopTacticPlayback(){if(tacticTimer){cancelAnimationFrame(tacticTimer);tacticTimer=null}if(tacticRecording){tacticRecording=false;$("recordTactic").textContent="⏺ Nahrávat pohyb"}}
+function playTactic(){if(tacticFrames.length<2){$("tacticsStatus").textContent="Nejdřív zapni nahrávání a zaznamenej alespoň jeden pohyb značky.";return}stopTacticPlayback();let frames=[...tacticFrames].sort((a,b)=>a.t-b.t),start=performance.now(),duration=Math.max(500,frames[frames.length-1].t);function step(now){let t=(now-start)%duration;let i=0;while(i<frames.length-2&&frames[i+1].t<t)i++;let a=frames[i],b=frames[Math.min(i+1,frames.length-1)],span=Math.max(1,b.t-a.t),f=Math.max(0,Math.min(1,(t-a.t)/span));tacticObjects=a.objects.map(o=>{let q=b.objects.find(x=>x.id===o.id)||o;return {...o,x:o.x+(q.x-o.x)*f,y:o.y+(q.y-o.y)*f}});renderTacticPitch();tacticTimer=requestAnimationFrame(step)}tacticTimer=requestAnimationFrame(step);$("tacticsStatus").textContent="Přehrávání animace. Stiskni Zastavit pro ukončení."}
+function renderSavedTactics(){let sel=$("savedTacticSelect");if(!sel)return;let arr=load(tacticStoreKey,[]);sel.innerHTML=arr.map(x=>`<option value="${esc(x.id)}">${esc(x.name||"Nepojmenovaná situace")}</option>`).join("")||'<option value="">Zatím nemáš uložené situace</option>'}
+function saveTacticToLibrary(){let arr=load(tacticStoreKey,[]),id=tacticCurrentId||("tactic-"+Date.now()),name=$("tacticName").value.trim()||"Taktická situace";let item={id,name,pitch:$ ("pitchType").value,objects:tacticObjects,strokes:tacticStrokes,frames:tacticFrames};let i=arr.findIndex(x=>x.id===id);if(i>=0)arr[i]=item;else arr.push(item);localStorage.setItem(tacticStoreKey,JSON.stringify(arr));tacticCurrentId=id;renderSavedTactics();$("savedTacticSelect").value=id;saveTacticDraft();$("tacticsStatus").textContent="Taktická situace byla uložena v tomto zařízení."}
+function loadTacticFromLibrary(){let item=load(tacticStoreKey,[]).find(x=>x.id===$("savedTacticSelect").value);if(!item)return;stopTacticPlayback();tacticCurrentId=item.id;$("tacticName").value=item.name||"";$("pitchType").value=item.pitch||"full";tacticObjects=item.objects||[];tacticStrokes=item.strokes||[];tacticFrames=item.frames||[];renderTacticPitch();saveTacticDraft();$("tacticsStatus").textContent="Uložená situace byla otevřena."}
+function deleteTacticFromLibrary(){let id=$("savedTacticSelect").value;if(!id)return;if(!confirm("Smazat vybranou uloženou situaci?"))return;localStorage.setItem(tacticStoreKey,JSON.stringify(load(tacticStoreKey,[]).filter(x=>x.id!==id)));if(tacticCurrentId===id)tacticCurrentId=null;renderSavedTactics();$("tacticsStatus").textContent="Uložená situace byla smazána."}
+async function exportTacticImage(){try{let clone=tacticPitch.cloneNode(true);clone.setAttribute("xmlns","http://www.w3.org/2000/svg");clone.setAttribute("width","700");clone.setAttribute("height","900");let blob=new Blob([new XMLSerializer().serializeToString(clone)],{type:"image/svg+xml;charset=utf-8"}),url=URL.createObjectURL(blob),img=new Image();img.onload=async()=>{try{let c=document.createElement("canvas");c.width=1400;c.height=1800;c.getContext("2d").drawImage(img,0,0,1400,1800);URL.revokeObjectURL(url);let png=await new Promise(r=>c.toBlob(r,"image/png"));let file=new File([png],"takticka-tabule.png",{type:"image/png"});if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]}))await navigator.share({files:[file],title:$("tacticName").value||"Taktická tabule"});else{let u=URL.createObjectURL(png),a=document.createElement("a");a.href=u;a.download="takticka-tabule.png";a.click();setTimeout(()=>URL.revokeObjectURL(u),10000)}$("tacticsStatus").textContent="Obrázek taktické tabule je připravený."}catch(e){URL.revokeObjectURL(url);$("tacticsStatus").textContent="Export obrázku se nepodařil."}};img.onerror=()=>{$("tacticsStatus").textContent="Export obrázku se nepodařil."};img.src=url}catch(e){$("tacticsStatus").textContent="Export obrázku se nepodařil."}}
+
+async function exportTacticVideo(){
+ const status=$("tacticsStatus");
+ if(tacticFrames.length<2){status.textContent="Nejdřív nahraj pohyb značek a ukonči nahrávání.";return}
+ if(!window.MediaRecorder||!HTMLCanvasElement.prototype.captureStream){status.textContent="Tento prohlížeč nepodporuje přímý export videa. Můžeš přehrát pohyb a použít záznam obrazovky iPhonu, nebo exportovat obrázek.";return}
+ let stream=null,recorder=null;
+ try{
+  stopTacticPlayback();const frames=[...tacticFrames].sort((a,b)=>a.t-b.t),duration=Math.max(1000,frames[frames.length-1].t);
+  const canvas=document.createElement("canvas");canvas.width=700;canvas.height=900;const ctx=canvas.getContext("2d");
+  const mimeCandidates=["video/mp4;codecs=avc1.42E01E","video/mp4","video/webm;codecs=vp8","video/webm"].filter(t=>{try{return MediaRecorder.isTypeSupported(t)}catch{return false}});
+  stream=canvas.captureStream(24);
+  let lastError=null;
+  for(const mimeType of mimeCandidates){try{recorder=new MediaRecorder(stream,{mimeType});break}catch(e){lastError=e}}
+  if(!recorder){stream.getTracks().forEach(t=>t.stop());status.textContent="Prohlížeč nenabídl podporovaný formát videa. Na iPhonu použij záznam obrazovky při přehrávání pohybu.";return}
+  const chunks=[];recorder.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+  const done=new Promise((resolve,reject)=>{recorder.onstop=resolve;recorder.onerror=e=>reject(e.error||new Error("Chyba záznamu videa"))});
+  recorder.start(250);
+  const drawSvg=async objects=>{
+   const strokes=tacticStrokes.map(s=>`<path d="${s.d}" fill="none" stroke="${s.type==="arrow"?"#ffe66d":"#ffffff"}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" ${s.type==="arrow"?'marker-end="url(#tacticArrowHead)"':""}/>`).join("");
+   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="700" height="900" viewBox="0 0 700 900"><defs><marker id="tacticArrowHead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L0 6 L6 3z" fill="#ffe66d"/></marker></defs>${tacticPitchLines()}${strokes}${objects.map(tacticObjMarkup).join("")}</svg>`;
+   const blob=new Blob([svg],{type:"image/svg+xml;charset=utf-8"}),url=URL.createObjectURL(blob);
+   await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{ctx.clearRect(0,0,700,900);ctx.fillStyle="#247b49";ctx.fillRect(0,0,700,900);ctx.drawImage(im,0,0,700,900);URL.revokeObjectURL(url);resolve()};im.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Nepodařilo se vykreslit snímek"))};im.src=url});
+  };
+  const started=performance.now();
+  await new Promise((resolve,reject)=>{function tick(now){const t=Math.min(duration,now-started);let i=0;while(i<frames.length-2&&frames[i+1].t<t)i++;const a=frames[i],b=frames[Math.min(i+1,frames.length-1)],f=Math.max(0,Math.min(1,(t-a.t)/Math.max(1,b.t-a.t)));const objects=a.objects.map(o=>{const q=b.objects.find(x=>x.id===o.id)||o;return {...o,x:o.x+(q.x-o.x)*f,y:o.y+(q.y-o.y)*f}});drawSvg(objects).then(()=>{if(t>=duration){resolve();return}setTimeout(()=>tick(performance.now()),42)}).catch(reject)}tick(performance.now())});
+  await new Promise(r=>setTimeout(r,150));
+  if(recorder.state!=="inactive")recorder.stop();await done;stream.getTracks().forEach(t=>t.stop());
+  const mime=recorder.mimeType||mimeCandidates[0]||"video/webm",ext=mime.includes("mp4")?"mp4":"webm",blob=new Blob(chunks,{type:mime});
+  if(!blob.size)throw new Error("Soubor videa je prázdný");
+  const file=new File([blob],`takticka-situace.${ext}`,{type:mime});
+  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+   try{await navigator.share({files:[file],title:$("tacticName").value||"Taktická situace"});status.textContent="Video je připravené ke sdílení. Pokud iPhone nabídne Uložit video, vyber Fotky.";return}
+   catch(e){if(e&&e.name==="AbortError"){status.textContent="Sdílení bylo zrušeno. Video se nevytvořilo do Fotek; zkus znovu a vyber Uložit video.";return}}
+  }
+  const url=URL.createObjectURL(file),a=document.createElement("a");a.href=url;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);status.textContent=`Video bylo vytvořeno (${ext.toUpperCase()}). Pokud se na iPhonu nestáhne, použij Sdílet a ulož soubor do aplikace Soubory.`;
+ }catch(e){if(stream)stream.getTracks().forEach(t=>t.stop());status.textContent="Export videa selhal: "+(e&&e.message?e.message:"prohlížeč nedokončil vytvoření souboru")+". Zkus kratší nahrávku; na iPhonu lze také použít záznam obrazovky při přehrávání."}
+}
+
+
+
+// Bilingual UI (Czech / English). Language preference is separate from app data.
+const I18N_PAIRS=[["NÁSTROJE PRO FOTBALOVÉ TRENÉRY ⚽","TOOLS FOR FOOTBALL COACHES ⚽"],["Fotbalový trenér","Football Coach"],["Plánuj týmové akce, spravuj hráče, připravuj rozestavení a nominace a kresli herní situace na taktické tabuli.","Plan team events, manage players, prepare line-ups and squads, and draw game situations on the tactics board."],["Kalendář","Calendar"],["Nová akce","New Event"],["Hráči","Players"],["Rozestavení","Team Line-up"],["Rozpis","Schedule"],["Statistiky","Statistics"],["Záloha","Backup & Restore"],["Taktická tabule","Tactics Board"],["Tečka označuje den s uloženou akcí.","A dot marks a day with a saved event."],["+ Přidat","+ Add"],["Akce a hráči se ukládají lokálně v tomto zařízení. Zatím se nesynchronizují s jinými zařízeními.","Events and players are stored locally on this device. They are not synced with other devices."],["Název akce / turnaje","Event / tournament name"],["Např. Turnaj nebo trénink","e.g. Tournament or training"],["Datum","Date"],["Vyber datum akce","Choose the event date"],["Sraz","Meet-up time"],["Vyplň čas srazu","Enter the meet-up time"],["Výkop (nepovinné)","Kick-off (optional)"],["Vyplň jen pokud znáš čas začátku","Enter only if you know the start time"],["Povrch","Surface"],["Tráva","Grass"],["UMT (nafukovací hala)","Artificial turf (inflatable dome)"],["UMT","Artificial turf"],["Hala","Indoor hall"],["Místo","Venue"],["Např. domácí hřiště","e.g. home ground"],["Adresa (nepovinná)","Address (optional)"],["Vyplň jen u venkovních zápasů nebo turnajů","Fill in for away matches or tournaments only"],["Poznámka (nepovinné)","Notes (optional)"],["Např. s sebou oba dresy","e.g. bring both kits"],["Uložit akci","Save event"],["Zrušit","Cancel"],["Soupiska hráčů","Player roster"],["Hráče přidáš jednou, při nominaci už jen zaškrtneš vybrané.","Add each player once, then select them when creating a squad."],["Jméno hráče","Player name"],["Jméno a příjmení","First and last name"],["+ Přidat hráče","+ Add player"],["⚽ Rozestavení 4+1","⚽ 4+1 Line-up"],["Vyber hráče u jednotlivých pozic. Sestavy se ukládají automaticky v tomto telefonu.","Choose a player for each position. Line-ups are saved automatically on this phone."],["Vybrat utkání","Select match"],["Vyber utkání pro toto rozestavení.","Select a match for this line-up."],["Rozestavení bude používat pouze hráče uložené v nominaci vybraného zápasu.","The line-up uses only players included in the selected match squad."],["Sestava A","Team A"],["Sestava B","Team B"],["A + B","A + B"],["Název týmu (nepovinný)","Team name (optional)"],["Např. Modří","e.g. Blues"],["Rozestavení na hřišti","Player positioning"],["Posuň řady hráčů výš nebo níž podle své taktiky.","Move the player lines up or down to suit your tactics."],["Obránci – výška","Defenders – vertical position"],["Útočníci – výška","Forwards – vertical position"],["🔄 Střídající","🔄 Substitutes"],["Exportovat sestavu do obrázku","Export line-up as image"],["Vymazat toto rozestavení","Clear this line-up"],["📊 Statistiky hráčů","📊 Player statistics"],["Statistiky standardně počítají pouze proběhlé události. Nominace se bere jako účast, ale ručně upravená docházka má přednost. Poměr ukazuje účasti z celkového počtu proběhlých akcí.","Statistics count past events by default. Squad selection counts as attendance, but manually edited attendance takes priority. The ratio shows attendances out of all past events."],["Sezóna / filtr","Season / filter"],["Proběhlé události","Past events"],["Všechny události","All events"],["Budoucí události","Upcoming events"],["📸 Sdílet statistiky jako obrázek","📸 Share statistics as image"],["Opravit účast na zápase","Edit match attendance"],["Vyber událost","Select event"],["Zaškrtnutí označuje hráče, kteří skutečně nastoupili. Pokud účast ještě nebyla ručně opravena, statistika vychází automaticky z nominace.","Tick the players who actually played. If attendance has not been edited, statistics are based on the selected squad."],["Uložit účast","Save attendance"],["Vrátit k nominaci","Reset to squad selection"],["🛡️ Zálohování a obnova","🛡️ Backup and restore"],["Záloha obsahuje soupisku, události, nominace, sestavy a ručně upravenou účast. Ulož si ji pravidelně do aplikace Soubory na iPhonu.","The backup includes the roster, events, squads, line-ups and manually edited attendance. Save it regularly to Files on your iPhone."],["Stáhnout kompletní zálohu JSON","Download full JSON backup"],["Sdílet zálohu…","Share backup…"],["Obnovit ze souboru zálohy JSON","Restore from JSON backup file"],["Obnovit data ze zálohy","Restore backup"],["Doporučení: po každé větší změně stáhni kompletní zálohu JSON a ulož ji do aplikace Soubory na iPhonu nebo na iCloud Drive. Při obnově vyber uložený soubor výše. Aktualizace aplikace nemá mazat data uložená v tomto telefonu.","Tip: download a full JSON backup after major changes and save it in Files or iCloud Drive. To restore, select the saved file above. App updates should not delete data stored on this phone."],["🖼️ Import a export rozpisu","🖼️ Schedule import and export"],["Můžeš načíst rozpis z fotky pomocí rozpoznávání textu, nebo pohodlněji importovat tabulku připravenou v Excelu. Pro Excel ulož soubor jako CSV UTF-8 a nahraj ho níže. Sloupce mohou obsahovat datum, název akce, sraz, výkop, povrch, místo, adresu a poznámku.","Import a schedule from a photo using text recognition, or import a spreadsheet prepared in Excel. Save the Excel file as CSV UTF-8 and upload it below. Columns can include date, event name, meet-up time, kick-off, surface, venue, address and notes."],["Nahrát fotku rozpisu","Upload schedule photo"],["Rozpoznat události z fotky","Recognize events from photo"],["Nahrát rozpis z Excelu (CSV)","Upload schedule from Excel (CSV)"],["Importovat tabulku CSV","Import CSV file"],["Rozpoznaný text (můžeš opravit)","Recognized text (you can edit it)"],["Po rozpoznání se sem vloží text z fotky. Zkontroluj ho a pak klepni na Převést na události.","Recognized text from the photo will appear here. Check it, then tap Convert to events."],["Převést text na události","Convert text to events"],["Import přidává události ke stávajícím. Před uložením se vyhledají duplicity podle data a názvu.","Import adds events to existing ones. Duplicates are checked by date and name before saving."],["📤 Export kalendáře","📤 Calendar export"],["Vytvoř obrázek kalendáře a ulož ho nebo sdílej s rodiči a trenéry.","Create a calendar image to save or share with parents and coaches."],["Exportovat kalendář do obrázku","Export calendar as image"],["📋 Taktická tabule","📋 Tactics board"],["⚙️ Nástroje a nastavení hřiště","⚙️ Pitch tools and settings"],["Vyber typ hřiště a nástroj. Šipku nebo kreslení vypneš opětovným klepnutím na aktivní tlačítko.","Choose the pitch type and a tool. Tap the active arrow or drawing tool again to turn it off."],["Typ hřiště","Pitch type"],["Celé hřiště","Full pitch"],["Polovina hřiště","Half pitch"],["Malé hřiště 4+1","Small-sided pitch 4+1"],["↖️ Výběr / pohyb","↖️ Select / move"],["✏️ Kreslit","✏️ Draw"],["➡️ Šipka","➡️ Arrow"],["🧽 Guma","🧽 Eraser"],["🔵 Hráč modrý","🔵 Blue player"],["🔴 Hráč červený","🔴 Red player"],["⚽ Míč","⚽ Ball"],["🔶 Kužel","🔶 Cone"],["↩ Zpět","↩ Undo"],["Vymazat tabuli","Clear board"],["🎬 Nahrávání a přehrávání pohybu","🎬 Record and play movement"],["⏺ Nahrávat pohyb","⏺ Record movement"],["▶ Přehrát","▶ Play"],["■ Zastavit","■ Stop"],["Zapni nahrávání a přesouvej značky. Po dokončení zastav nahrávání, aby bylo možné přehrát nebo exportovat pohyb.","Start recording and move the markers. Stop recording when finished to play or export the movement."],["💾 Uložit, exportovat nebo otevřít situaci","💾 Save, export or open a situation"],["💾 Uložit tabuli","💾 Save board"],["📤 Exportovat obrázek","📤 Export image"],["🎬 Exportovat video / sdílet","🎬 Export video / share"],["Vyber nástroj nebo přidej značku. Při nahrávání přesouvej značky po hřišti.","Choose a tool or add a marker. Move markers around the pitch while recording."],["Název situace","Situation name"],["Např. Rozehrávka od brankáře","e.g. Build-up from the goalkeeper"],["Uložené situace","Saved situations"],["Otevřít uloženou situaci","Open saved situation"],["Smazat uloženou situaci","Delete saved situation"],["Neděle","Sunday"],["Pondělí","Monday"],["Úterý","Tuesday"],["Středa","Wednesday"],["Čtvrtek","Thursday"],["Pátek","Friday"],["Sobota","Saturday"],["leden","January"],["únor","February"],["březen","March"],["duben","April"],["květen","May"],["červen","June"],["červenec","July"],["srpen","August"],["září","September"],["říjen","October"],["listopad","November"],["prosinec","December"],["Vybrané utkání:","Selected match:"],["Výběr platí pro sestavu A i B","Selection applies to both Team A and Team B"],["Nejprve vyber utkání v Kalendáři.","First select a match in Calendar."],["Nejprve vytvoř akci v kalendáři a vyber nominované hráče.","First create an event in Calendar and select the squad."],["Vyber utkání v Kalendáři a otevři jeho nominaci. Pak už zápas nemusíš vybírat znovu.","Select a match in Calendar and create its squad. You will not need to select it again."],["Pro tento zápas ještě není uložená nominace. Otevři zápas v kalendáři a vytvoř zprávu s nominací.","No squad has been saved for this match yet. Open the match in Calendar and create the squad message."],["V nominaci je","The squad contains"],["hráčů. Pro tým","players. Available for Team"],["jsou dostupní jen hráči, kteří nejsou přiřazeni druhému týmu.","are only players not assigned to the other team."],["BRANKÁŘ","GOALKEEPER"],["OBRÁNCE","DEFENDER"],["ÚTOČNÍK","FORWARD"],["— Vyber hráče —","— Select player —"],["Žádní další nominovaní hráči ke střídání.","No other selected players available as substitutes."],["Vyber nominované hráče","Select players for the squad"],["Omluvit pro tuto akci","Excuse for this event"],["Znovu aktivovat pro tuto akci","Reactivate for this event"],["Omluven pro tuto akci","Excused for this event"],["Znovu aktivovat","Reactivate"],["Omluvit","Excuse"],["Hotová zpráva pro WhatsApp","WhatsApp message"],["Vytvořit zprávu","Create message"],["Sdílet zprávu","Share message"],["Uložit","Save"],["Zavřít","Close"],["Nominace se ukládá automaticky. Stisknutím „Uložit“ potvrď uložení; zprávu můžeš vytvořit nebo sdílet.","The squad is saved automatically. Tap Save to confirm; you can create or share the message."],["Na tento den nemáš žádnou akci.","No events on this day."],["📌 Nejbližší akce","📌 Next event"],["Vytvořit nominaci","Create squad"],["Upravit akci","Edit event"],["Smazat","Delete"],["Opravdu vymazat rozestavení tohoto týmu pro vybrané utkání?","Clear this team's line-up for the selected match?"],["Rozestavení bylo vymazáno.","The line-up has been cleared."],["Vyplň název akce a datum.","Enter the event name and date."],["Hráč už v soupisce je.","This player is already on the roster."],["Odebrat","Remove"],["Odebrat hráče ze soupisky?","Remove this player from the roster?"],["Smazat akci?","Delete this event?"],["Značka byla odstraněna.","Marker removed."],["Poslední čára nebo šipka byla odstraněna.","The last line or arrow was removed."],["Režim výběru: můžeš přesouvat značky. Zvolený nástroj byl vypnut.","Select mode: you can move markers. The selected tool has been turned off."],["Táhni prstem po hřišti a kresli.","Drag your finger across the pitch to draw."],["Táhni od začátku do konce šipky. Klepni na Šipka znovu pro vypnutí.","Drag from the start to the end of the arrow. Tap Arrow again to turn it off."],["Opravdu vymazat všechny značky a kresby?","Clear all markers and drawings?"],["Nahrávání dokončeno:","Recording complete:"],["pohybových snímků.","movement frames."],["Nahrávání běží. Přesouvej značky po hřišti.","Recording is in progress. Move markers around the pitch."],["Nejdřív zapni nahrávání a zaznamenej alespoň jeden pohyb značky.","Start recording and record at least one marker movement first."],["Přehrávání animace. Stiskni Zastavit pro ukončení.","Animation playing. Press Stop to finish."],["Zatím nemáš uložené situace","No saved situations yet"],["Nepojmenovaná situace","Untitled situation"],["Taktická situace","Tactical situation"],["Taktická situace byla uložena v tomto zařízení.","Tactical situation saved on this device."],["Uložená situace byla otevřena.","Saved situation opened."],["Smazat vybranou uloženou situaci?","Delete the selected saved situation?"],["Uložená situace byla smazána.","Saved situation deleted."],["Obrázek taktické tabule je připravený.","Tactics board image is ready."],["Export obrázku se nepodařil.","Image export failed."],["Nejdřív nahraj pohyb značek a ukonči nahrávání.","Record marker movement and stop recording first."],["Tento prohlížeč nepodporuje přímý export videa. Můžeš přehrát pohyb a použít záznam obrazovky iPhonu, nebo exportovat obrázek.","This browser does not support direct video export. Play the movement and use iPhone screen recording, or export an image."],["Obrázek sestavy je připravený ke stažení.","The line-up image is ready to download."],["Obrázek se nepodařilo vytvořit. Zkus to znovu v Safari.","Could not create the image. Try again in Safari."],["Tento den nemáš žádnou akci.","No events on this day."],["Stáhnout kompletní zálohu JSON","Download full JSON backup"],["Vyber soubor zálohy","Select a backup file"],["Záloha byla vytvořena.","Backup created."],["Data byla obnovena.","Data restored."],["Import se nezdařil.","Import failed."],["Proběhlo","Completed"],["Nominace","Squad"],["Účast","Attendance"],["Celkem","Total"],["Jméno","Name"],["Akce","Events"],["Počet","Count"]];
+I18N_PAIRS.push(...[["Upravit","Edit"],["Smazat","Delete"],["Vytvořit nominaci","Create squad selection"],["Vybrat hráče","Select player"],["Hráč","Player"],["Účasti / akce","Appearances / events"],["Zvolit soubor","Choose file"],["Nevybrán žádný soubor","No file selected"],["Není vybrán žádný soubor","No file selected"],["📌 Nejbližší akce","📌 Next Event"],["Vytvořit nominaci","Create Squad"],["Nová akce","New Event"],["📊 Statistiky hráčů","📊 Player Statistics"],["🛡️ Zálohování a obnova","🛡️ Backup & Restore"],["📋 Taktická tabule","📋 Tactics Board"],["Po","Mon"],["Út","Tue"],["St","Wed"],["Čt","Thu"],["Pá","Fri"],["So","Sat"],["Ne","Sun"],["ledna","January"],["února","February"],["března","March"],["dubna","April"],["května","May"],["června","June"],["července","July"],["srpna","August"],["září","September"],["října","October"],["listopadu","November"],["prosince","December"],["V soupisce zatím nejsou žádní hráči.","There are no players on the roster yet."],["Nominace je uložená v tomto iPhonu.","The squad is saved on this iPhone."],["Nejprve vyber CSV soubor uložený z Excelu.","First select a CSV file saved from Excel."],["Tabulka musí obsahovat záhlaví a alespoň jeden řádek události.","The table must contain a header and at least one event row."],["Soubor se nepodařilo načíst. V Excelu ho ulož jako CSV UTF-8 a zkus to znovu.","Could not read the file. Save it as CSV UTF-8 in Excel and try again."],["Načítám rozpoznávání textu…","Loading text recognition…"],["Rozpoznávám text:","Recognizing text:"],["Text je rozpoznaný. Zkontroluj ho a klepni na Převést text na události.","Text recognized. Review it and tap Convert text to events."],["Fotku se nepodařilo automaticky přečíst. Zkus kvalitnější obrázek nebo použij Importovat připravený rozpis (z první fotky).","Could not read the photo automatically. Try a clearer image or import a prepared schedule."],["Import dokončen: přidáno","Import complete: added"],["událostí","events"],["Zkontroluj události v kalendáři.","Review the events in Calendar."],["Všechny rozpoznané události už existují. Přeskočeno duplicit:","All recognized events already exist. Duplicates skipped:"],["Nenašel jsem platné řádky. Každý řádek musí začínat datem, např. 18.10.2026, a obsahovat název akce.","No valid rows found. Each row must start with a date, e.g. 18/10/2026, and include an event name."],["Od dneška už nemáš v kalendáři žádné budoucí události.","There are no upcoming events in your calendar."],["ČAS","TIME"],["MÍSTO","VENUE"],["PNG se nepodařilo vytvořit","Could not create PNG"],["Fotbalový rozpis","Football schedule"],["Obrázek je připravený ke sdílení. V nabídce iPhonu vyber Uložit obrázek nebo Uložit do Fotek, případně WhatsApp.","The image is ready to share. In the iPhone share menu, choose Save Image, Save to Photos or WhatsApp."],["Nabídka sdílení obrázku není v tomto prohlížeči dostupná. Obrázek se stáhl do Stažených; otevři ho a použij Sdílet → Uložit obrázek.","Image sharing is not available in this browser. The image was downloaded; open it and choose Share → Save Image."],["Sdílení bylo zrušeno.","Sharing was cancelled."],["Obrázek se nepodařilo sdílet. Zkus to znovu v Safari.","Could not share the image. Try again in Safari."],["Fotbalová nominace","Football squad"],["Záloha byla připravena. Na iPhonu ji ulož do aplikace Soubory nebo na iCloud Drive.","The backup is ready. On iPhone, save it to Files or iCloud Drive."],["Záloha Fotbalové nominace","Football squad backup"],["Vyber v nabídce iPhonu Soubory, iCloud Drive nebo GitHub.","In the iPhone share menu, choose Files, iCloud Drive or GitHub."],["Soubor se stáhl. Najdeš ho v aplikaci Soubory → Stažené.","The file was downloaded. Find it in Files → Downloads."],["Sdílení se nepodařilo. Použij tlačítko Stáhnout kompletní zálohu JSON.","Sharing failed. Use the Download full JSON backup button."],["Nejprve vyber soubor JSON se zálohou.","First select a JSON backup file."],["Neplatná záloha","Invalid backup"],["Před obnovou se automaticky stáhne záloha aktuálních dat. Pokračovat v obnově vybraného souboru?","A backup of the current data will be downloaded before restoring. Continue with the selected file?"],["Obnova dokončena. Načteno","Restore complete. Loaded"],["událostí a","events and"],["hráčů. Před obnovou se stáhla bezpečnostní záloha.","players. A safety backup was downloaded before restoration."],["Soubor se nepodařilo obnovit. Ověř, že jde o JSON zálohu z aplikace Fotbalová nominace.","Could not restore the file. Make sure it is a JSON backup from the Football Squad app."],["Akcí v přehledu","Events in overview"],["Hráčů v soupisce","Players on roster"],["Klepni na jméno hráče a zobrazíš utkání, kterých se zúčastnil.","Tap a player's name to see the matches they took part in."],["V tomto přehledu zatím žádná účast.","No attendance recorded in this overview yet."],["Nejprve vytvoř událost.","Create an event first."],["Pro tuto událost zatím není uložená nominace. Otevři zápas v kalendáři a vytvoř nominaci.","No squad has been saved for this event yet. Open the match in Calendar and create a squad."],["Účast byla uložena. Statistiky se přepočítaly.","Attendance saved. Statistics have been recalculated."],["Ruční oprava byla odstraněna. Účast se opět počítá podle nominace.","Manual override removed. Attendance is now based on the squad again."],["Statistiky fotbalové nominace","Football squad statistics"],["Obrázek statistik je připraven ke sdílení.","Statistics image is ready to share."],["Obrázek statistik se stáhl. Na iPhonu ho najdeš v aplikaci Soubory → Stažené.","The statistics image was downloaded. On iPhone, find it in Files → Downloads."],["Export statistik se nepodařil.","Statistics export failed."],["Prohlížeč nenabídl podporovaný formát videa. Na iPhonu použij záznam obrazovky při přehrávání pohybu.","The browser did not offer a supported video format. On iPhone, use screen recording while playing the movement."],["Nepodařilo se vykreslit snímek","Could not render a frame"],["Soubor videa je prázdný","The video file is empty"],["Video je připravené ke sdílení. Pokud iPhone nabídne Uložit video, vyber Fotky.","The video is ready to share. If iPhone offers Save Video, choose Photos."],["Sdílení bylo zrušeno. Video se nevytvořilo do Fotek; zkus znovu a vyber Uložit video.","Sharing was cancelled. The video was not saved to Photos; try again and choose Save Video."],["Video bylo vytvořeno","Video created"],["Pokud se na iPhonu nestáhne, použij Sdílet a ulož soubor do aplikace Soubory.","If it does not download on iPhone, use Share and save the file to Files."],["prohlížeč nedokončil vytvoření souboru","the browser did not finish creating the file"],["Zkus kratší nahrávku; na iPhonu lze také použít záznam obrazovky při přehrávání.","Try a shorter recording; on iPhone, you can also use screen recording during playback."]]);
+I18N_PAIRS.push(...[["Vyber rozestavení","Choose formation"],["Vyber značku a přetáhni ji prstem nebo myší. Hráče vybíráš z nominace daného utkání.","Drag a marker with your finger or mouse. Select players from the squad for this match."]]);
+I18N_PAIRS.push(...[["Upravit sestavu","Edit line-up"],["Exportovat","Export"],["FOTBALOVÁ SESTAVA 4+1","FOOTBALL LINE-UP 4+1"],["STŘÍDAJÍCÍ","SUBSTITUTES"],["Brankář","Goalkeeper"],["Obránce","Defender"],["Útočník","Forward"],["— volné —","— vacant —"],["Nominace:","Squad:"],["Sraz","Meet-up"],["výkop","kick-off"],["Sestava","Line-up"],["Omluveno","Excused"],["Zápasy","Matches"],["Celková účast","Total attendance"]]);
+let appLanguage=localStorage.getItem("coach-public-language")==="en"?"en":"cs";
+const I18N_CZ_TO_EN=new Map(I18N_PAIRS),I18N_EN_TO_CZ=new Map(I18N_PAIRS.map(([cs,en])=>[en,cs]));
+const originalTextNodes=new WeakMap(),originalAttributes=new WeakMap();
+function initFilePickers(){
+ document.querySelectorAll('.file-picker input[type="file"]').forEach(input=>{
+  const update=()=>{const name=document.getElementById(input.id+"Name");if(name)name.textContent=input.files&&input.files.length?input.files[0].name:(appLanguage==="en"?"No file selected":"Není vybrán žádný soubor")};
+  input.addEventListener("change",update);update();
+ });
+}
+function setAppLanguage(lang){
+ appLanguage=lang==="en"?"en":"cs";
+ try{localStorage.setItem("coach-public-language",appLanguage)}catch(e){}
+ const button=document.getElementById("languageToggle");
+ if(button){
+  button.textContent=appLanguage==="en"?"🇨🇿 Čeština":"🇬🇧 English";
+  button.setAttribute("aria-label",appLanguage==="en"?"Přepnout do češtiny":"Switch language to English");
+ }
+ translateNode(document.body);
+ document.querySelectorAll('[data-file-label]').forEach(el=>el.textContent=appLanguage==="en"?"Choose file":"Zvolit soubor");
+ document.querySelectorAll('.file-picker input[type="file"]').forEach(input=>{const name=document.getElementById(input.id+"Name");if(name&&!input.files?.length)name.textContent=appLanguage==="en"?"No file selected":"Není vybrán žádný soubor"});
+ // Re-render date-dependent content so month, weekday and event dates use the selected locale.
+ if(typeof calendar==="function")calendar();
+ if(typeof renderLineup==="function"&&document.getElementById("lineup")?.classList.contains("active")){renderLineup();if(lineupView==="both")renderBothLineups()}
+ if(typeof renderStats==="function"&&document.getElementById("stats")?.classList.contains("active"))renderStats();
+}
+function translateString(value,lang=appLanguage){
+ // Translate against the original text in one pass. Sequential replacements
+ // can corrupt newly translated phrases (e.g. New Event / Next Event).
+ const original=String(value), map=lang==="en"?I18N_CZ_TO_EN:I18N_EN_TO_CZ;
+ const keys=[...map.keys()].filter(Boolean).sort((a,b)=>b.length-a.length);
+ if(!keys.length)return original;
+ const escaped=keys.map(key=>key.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+ const pattern=keys.map((key,i)=>{
+   const left=/^[\p{L}\p{N}]+/u.test(key)?'(?<![\p{L}\p{N}])':'';
+   const right=/[\p{L}\p{N}]+$/u.test(key)?'(?![\p{L}\p{N}])':'';
+   return left+escaped[i]+right;
+ }).join('|');
+ const lookup=new Map(keys.map(key=>[key,map.get(key)]));
+ return original.replace(new RegExp(pattern,'gu'),match=>lookup.get(match)??match);
+}
+function translateNode(root){
+ if(!root)return;
+ const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
+ while((n=walker.nextNode())){
+  if(!n.nodeValue.trim())continue;
+  const parent=n.parentElement;
+  if(!parent||parent.closest('script,style,textarea,[contenteditable="true"],.eventbody h3,.player span,.position select,.sub-item span')||parent.closest('#languageToggle'))continue;
+  if(!originalTextNodes.has(n))originalTextNodes.set(n,n.nodeValue);
+  const original=originalTextNodes.get(n),next=translateString(original);
+  if(next!==n.nodeValue)n.nodeValue=next;
+ }
+ const els=[];if(root.nodeType===1)els.push(root);if(root.querySelectorAll)els.push(...root.querySelectorAll('*'));
+ for(const el of els){
+  for(const attr of ['placeholder','title','aria-label']){
+   const val=el.getAttribute&&el.getAttribute(attr);if(!val)continue;
+   let originals=originalAttributes.get(el);if(!originals){originals=new Map();originalAttributes.set(el,originals)}
+   if(!originals.has(attr))originals.set(attr,val);
+   const next=translateString(originals.get(attr));if(next!==val)el.setAttribute(attr,next);
+  }
+ }
+}
+function initLanguageToggle(){const b=document.getElementById("languageToggle");if(b)b.addEventListener('click',()=>setAppLanguage(appLanguage==="en"?"cs":"en"));setAppLanguage(appLanguage);const observer=new MutationObserver(records=>{for(const rec of records)for(const node of rec.addedNodes)if(node.nodeType===1||node.nodeType===3)translateNode(node.nodeType===1?node:node.parentElement)});observer.observe(document.body,{childList:true,subtree:true});}
+
+initFilePickers();
+initLanguageToggle();
+calendar();if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+</script></body></html>
