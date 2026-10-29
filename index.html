@@ -398,7 +398,39 @@ function downloadBackupFile(){const blob=backupBlob(),url=URL.createObjectURL(bl
 $("downloadBackup").onclick=()=>{downloadBackupFile();showBackupStatus("Záloha byla připravena. Na iPhonu ji ulož do aplikace Soubory nebo na iCloud Drive.")};
 $("shareBackup").onclick=async()=>{try{const blob=backupBlob(),file=new File([blob],`fotbalova-nominace-zaloha-${new Date().toISOString().slice(0,10)}.json`,{type:"application/json"});if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Záloha Fotbalové nominace"});showBackupStatus("Vyber v nabídce iPhonu Soubory, iCloud Drive nebo GitHub.")}else{downloadBackupFile();showBackupStatus("Soubor se stáhl. Najdeš ho v aplikaci Soubory → Stažené.")}}catch(e){if(e.name!=="AbortError")showBackupStatus("Sdílení se nepodařilo. Použij tlačítko Stáhnout kompletní zálohu JSON.")}};
 function showBackupStatus(t){const el=$("backupStatus");el.textContent=t;el.classList.add("show")}
-$("restoreBackup").onclick=async()=>{const f=$("backupInput").files[0];if(!f){showBackupStatus("Nejprve vyber soubor JSON se zálohou.");return}try{const b=JSON.parse(await f.text());if(!b||!b.data||typeof b.data!=="object"||(!b.data["coach-public-events"]&&!b.data["coach-public-players"]))throw new Error("Neplatná záloha");if(!confirm("Před obnovou se automaticky stáhne záloha aktuálních dat. Pokračovat v obnově vybraného souboru?"))return;downloadBackupFile();const incoming=b.data;for(const [k,v] of Object.entries(incoming)){if(k.startsWith("coach-public-")&&typeof v==="string")localStorage.setItem(k,v)}players=[...new Set([...defaults,...load("coach-public-players",[])])];events=load("coach-public-events",[]);save();calendar();renderPlayers();renderStats();showBackupStatus(`Obnova dokončena. Načteno ${events.length} událostí a ${players.length} hráčů. Před obnovou se stáhla bezpečnostní záloha.`)}catch(e){showBackupStatus("Soubor se nepodařilo obnovit. Ověř, že jde o JSON zálohu z aplikace Fotbalová nominace.")}};
+$("restoreBackup").onclick=async()=>{
+ const f=$("backupInput").files[0];
+ if(!f){showBackupStatus("Nejprve vyber soubor JSON se zálohou.");return}
+ try{
+  const b=JSON.parse(await f.text());
+  if(!b||!b.data||typeof b.data!=="object")throw new Error("Neplatná záloha");
+  const incoming={};
+  for(const [k,v] of Object.entries(b.data)){
+   if(typeof v!=="string")continue;
+   if(k.startsWith("coach-public-")){incoming[k]=v;continue}
+   if(k==="fn-players")incoming["coach-public-players"]=v;
+   else if(k==="fn-events")incoming["coach-public-events"]=v;
+   else if(k==="fn-lineup-event")incoming["coach-public-lineup-event"]=v;
+   else if(k==="fn-tactics-draft")incoming["coach-public-tactics-draft"]=v;
+   else if(k==="fn-tactics-library")incoming["coach-public-tactics-library"]=v;
+   else {
+    let m=k.match(/^fn-(pick|played|excused)-(.+)$/);
+    if(m)incoming[`coach-public-${m[1]}-${m[2]}`]=v;
+    else if((m=k.match(/^fn-lineup-(.+)-(A|B)$/)))incoming[`coach-public-lineup-${m[1]}-${m[2]}`]=v;
+    else if((m=k.match(/^fn-lineup-(A|B)$/)))incoming[`coach-public-lineup-${m[1]}`]=v;
+   }
+  }
+  if(!incoming["coach-public-events"]&&!incoming["coach-public-players"])throw new Error("Záloha neobsahuje rozpoznaná data");
+  if(!confirm("Před obnovou se automaticky stáhne záloha aktuálních dat. Obnovit vybranou zálohu včetně hráčů, akcí, nominací, sestav a taktických situací?"))return;
+  downloadBackupFile();
+  for(const [k,v] of Object.entries(incoming))localStorage.setItem(k,v);
+  players=[...new Set([...defaults,...load("coach-public-players",[])])];
+  events=load("coach-public-events",[]);
+  save();calendar();renderPlayers();renderStats();
+  if(typeof renderSavedTactics==="function")renderSavedTactics();
+  showBackupStatus(`Obnova dokončena. Načteno ${events.length} událostí a ${players.length} hráčů. Záloha před obnovou byla stažena.`);
+ }catch(e){console.error(e);showBackupStatus("Soubor se nepodařilo obnovit. Podporujeme zálohu Fotbalové nominace (fn-*) i novou zálohu této aplikace.")}
+};
 // Statistiky: nominace se počítá jako odehraný zápas; poměr je vůči všem událostem ve zvoleném filtru.
 function eventPicked(e){return load("coach-public-pick-"+e.id,[]).filter(p=>players.includes(p))}
 function eventPlayed(e){
